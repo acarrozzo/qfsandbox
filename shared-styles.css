@@ -1,0 +1,45 @@
+/* QuickFrame Shared Styles - DRY & Elegant */
+
+/* Background */
+body {
+    background: url('img/qf-bg-test.png') center center / cover no-repeat fixed;
+    min-height: 100vh;
+}
+
+/* Navigation Width - DRY approach */
+.nav-width {
+    margin-left: 72px;
+}
+
+/* Glass Morphism Container */
+.glass-container {
+    border-radius: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    background: radial-gradient(162.34% 115.1% at 70.34% 91.1%, rgba(26, 201, 170, 0.06) 0%, rgba(24, 31, 37, 0.00) 62.23%), rgba(87, 90, 92, 0.20);
+    backdrop-filter: blur(20px);
+}
+
+/* Interactive Cards */
+.page-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.page-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Package cards - no hover effects */
+.package-card {
+    cursor: default;
+}
+
+/* Service Page Specific */
+.service-body {
+    font-family: sans-serif;
+    background: url('img/qf-bg-test.png') center center / cover no-repeat fixed;
+    color: white;
+    min-height: 100vh;
+    overflow-x: hidden;
+}

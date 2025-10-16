@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickFrame - Design System Prototype</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="shared-styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'qf-green': '#1AC9AA',
+                        'qf-dark': '#181F25',
+                        'qf-darker': '#0F1419',
+                        'qf-gray': '#575A5C',
+                        'qf-light-gray': '#8B8F91',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-qf-darker text-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 h-full z-50" style="width: 72px; border-right: 1px solid rgba(255, 255, 255, 0.20); background: radial-gradient(162.34% 115.1% at 70.34% 91.1%, rgba(26, 201, 170, 0.06) 0%, rgba(24, 31, 37, 0.00) 62.23%), rgba(87, 90, 92, 0.20); backdrop-filter: blur(20px);">
+        <div class="flex flex-col items-center py-6 h-full">
+            <!-- QF Logo -->
+            <a href="index.html" class="text-2xl font-bold text-white mb-8 hover:text-qf-green transition-colors">
+                QF
+            </a>
+            
+            <!-- Navigation Items -->
+            <div class="flex flex-col space-y-4">
+                <a href="index.html" class="p-3 rounded-lg bg-qf-green/20 text-qf-green" title="Table of Contents">
+                    <i class="fas fa-th-large"></i>
+                </a>
+                <a href="package-selection.html" class="p-3 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Package Selection">
+                    <i class="fas fa-box"></i>
+                </a>
+                <a href="service.html" class="p-3 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Service Prototype">
+                    <i class="fas fa-flask"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="nav-width min-h-screen p-8">
+        <!-- Header -->
+        <div class="mb-12">
+            <h1 class="text-4xl font-bold mb-4">QuickFrame Front-End Sandbox</h1>
+            <p class="text-qf-light-gray text-lg">UI/UX Experimentation & Responsive Design Prototype</p>
+        </div>
+
+        <!-- Design System Showcase -->
+        <div class="space-y-16">
+            <!-- Navigation to Pages -->
+            <section class="glass-container p-8 rounded-lg">
+                <h2 class="text-2xl font-bold mb-6 text-qf-green">Live Pages</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <!-- Package Selection -->
+                    <a href="package-selection.html" class="page-card glass-container p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-qf-green/20 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-box text-qf-green text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold">Package Selection</h3>
+                        </div>
+                        <p class="text-qf-light-gray text-sm">Choose commercial packages and services</p>
+                    </a>
+
+                    <!-- Service Prototype -->
+                    <a href="service.html" class="page-card glass-container p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-qf-green/20 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-flask text-qf-green text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold">Service Prototype</h3>
+                        </div>
+                        <p class="text-qf-light-gray text-sm">Concepting and ideation interface</p>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Responsive Breakpoints -->
+            <section class="glass-container p-8 rounded-lg">
+                <h2 class="text-2xl font-bold mb-6 text-qf-green">Responsive Breakpoints (Tailwind CSS)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-qf-dark/50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold mb-2 text-qf-green">Mobile First</h3>
+                        <p class="text-sm text-qf-light-gray mb-2">Default (0px+)</p>
+                        <p class="text-xs text-qf-light-gray">Base styles, single column layouts</p>
+                        <div class="mt-2">
+                            <span class="text-xs bg-qf-green/20 text-qf-green px-2 py-1 rounded">Used</span>
+                        </div>
+                    </div>
+                    <div class="bg-qf-dark/50 p-4 rounded-lg opacity-50">
+                        <h3 class="text-lg font-semibold mb-2 text-qf-light-gray">Small (sm)</h3>
+                        <p class="text-sm text-qf-light-gray mb-2">640px+</p>
+                        <p class="text-xs text-qf-light-gray">Small tablets, large phones</p>
+                        <div class="mt-2">
+                            <span class="text-xs bg-qf-gray/20 text-qf-gray px-2 py-1 rounded">Not Used</span>
+                        </div>
+                    </div>
+                    <div class="bg-qf-dark/50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold mb-2 text-qf-green">Medium (md)</h3>
+                        <p class="text-sm text-qf-light-gray mb-2">768px+</p>
+                        <p class="text-xs text-qf-light-gray">Tablets, small laptops</p>
+                        <div class="mt-2">
+                            <span class="text-xs bg-qf-green/20 text-qf-green px-2 py-1 rounded">Used</span>
+                        </div>
+                    </div>
+                    <div class="bg-qf-dark/50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold mb-2 text-qf-green">Large (lg)</h3>
+                        <p class="text-sm text-qf-light-gray mb-2">1024px+</p>
+                        <p class="text-xs text-qf-light-gray">Laptops, small desktops</p>
+                        <div class="mt-2">
+                            <span class="text-xs bg-qf-green/20 text-qf-green px-2 py-1 rounded">Used</span>
+                        </div>
+                    </div>
+                    <div class="bg-qf-dark/50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold mb-2 text-qf-green">Extra Large (xl)</h3>
+                        <p class="text-sm text-qf-light-gray mb-2">1280px+</p>
+                        <p class="text-xs text-qf-light-gray">Large desktops, wide screens</p>
+                        <div class="mt-2">
+                            <span class="text-xs bg-qf-green/20 text-qf-green px-2 py-1 rounded">Used</span>
+                        </div>
+                    </div>
+                    <div class="bg-qf-dark/50 p-4 rounded-lg opacity-50">
+                        <h3 class="text-lg font-semibold mb-2 text-qf-light-gray">2XL (2xl)</h3>
+                        <p class="text-sm text-qf-light-gray mb-2">1536px+</p>
+                        <p class="text-xs text-qf-light-gray">Ultra-wide displays</p>
+                        <div class="mt-2">
+                            <span class="text-xs bg-qf-gray/20 text-qf-gray px-2 py-1 rounded">Not Used</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-8">
+                    <h3 class="text-lg font-semibold mb-4 text-qf-green">Working Grid Pattern Examples</h3>
+                    
+                    <!-- Pattern 1: 1 → 2 → 3 columns -->
+                    <div class="mb-6">
+                        <h4 class="text-md font-semibold mb-3 text-white">Pattern 1: grid-cols-1 md:grid-cols-2 lg:grid-cols-3</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div class="bg-qf-green/20 p-3 rounded text-center text-sm">Mobile: 1 col</div>
+                            <div class="bg-qf-green/20 p-3 rounded text-center text-sm">Tablet: 2 cols</div>
+                            <div class="bg-qf-green/20 p-3 rounded text-center text-sm">Desktop: 3 cols</div>
+                        </div>
+                    </div>
+
+                    <!-- Pattern 2: 1 → 2 columns -->
+                    <div class="mb-6">
+                        <h4 class="text-md font-semibold mb-3 text-white">Pattern 2: grid-cols-1 lg:grid-cols-2</h4>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div class="bg-qf-green/20 p-3 rounded text-center text-sm">Mobile: 1 col</div>
+                            <div class="bg-qf-green/20 p-3 rounded text-center text-sm">Desktop: 2 cols</div>
+                        </div>
+                    </div>
+
+                    <!-- Pattern 3: 2 → 3 → 4 columns -->
+                    <div class="mb-6">
+                        <h4 class="text-md font-semibold mb-3 text-white">Pattern 3: grid-cols-2 md:grid-cols-3 lg:grid-cols-4</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            <div class="bg-qf-green/20 p-3 rounded text-center text-sm">Mobile: 2 cols</div>
+                            <div class="bg-qf-green/20 p-3 rounded text-center text-sm">Tablet: 3 cols</div>
+                            <div class="bg-qf-green/20 p-3 rounded text-center text-sm">Desktop: 4 cols</div>
+                            <div class="bg-qf-green/20 p-3 rounded text-center text-sm hidden lg:block">Desktop: 4 cols</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Color Palette -->
+            <section class="glass-container p-8 rounded-lg">
+                <h2 class="text-2xl font-bold mb-6 text-qf-green">Color Palette</h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-qf-green rounded-lg mx-auto mb-2"></div>
+                        <p class="text-sm font-medium">QF Green</p>
+                        <p class="text-xs text-qf-light-gray">#1AC9AA</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-qf-dark rounded-lg mx-auto mb-2"></div>
+                        <p class="text-sm font-medium">QF Dark</p>
+                        <p class="text-xs text-qf-light-gray">#181F25</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-qf-darker rounded-lg mx-auto mb-2"></div>
+                        <p class="text-sm font-medium">QF Darker</p>
+                        <p class="text-xs text-qf-light-gray">#0F1419</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-qf-gray rounded-lg mx-auto mb-2"></div>
+                        <p class="text-sm font-medium">QF Gray</p>
+                        <p class="text-xs text-qf-light-gray">#575A5C</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-qf-light-gray rounded-lg mx-auto mb-2"></div>
+                        <p class="text-sm font-medium">QF Light Gray</p>
+                        <p class="text-xs text-qf-light-gray">#8B8F91</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Typography -->
+            <section class="glass-container p-8 rounded-lg">
+                <h2 class="text-2xl font-bold mb-6 text-qf-green">Typography</h2>
+                <div class="space-y-6">
+                    <div>
+                        <h1 class="text-4xl font-bold mb-2">Heading 1 - 4xl Bold</h1>
+                        <p class="text-xs text-qf-light-gray">text-4xl font-bold</p>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-bold mb-2">Heading 2 - 3xl Bold</h2>
+                        <p class="text-xs text-qf-light-gray">text-3xl font-bold</p>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold mb-2">Heading 3 - 2xl Bold</h3>
+                        <p class="text-xs text-qf-light-gray">text-2xl font-bold</p>
+                    </div>
+                    <div>
+                        <h4 class="text-xl font-semibold mb-2">Heading 4 - xl Semibold</h4>
+                        <p class="text-xs text-qf-light-gray">text-xl font-semibold</p>
+                    </div>
+                    <div>
+                        <p class="text-lg mb-2">Body Large - lg Regular</p>
+                        <p class="text-xs text-qf-light-gray">text-lg</p>
+                    </div>
+                    <div>
+                        <p class="text-base mb-2">Body Regular - base Regular</p>
+                        <p class="text-xs text-qf-light-gray">text-base</p>
+                    </div>
+                    <div>
+                        <p class="text-sm mb-2">Body Small - sm Regular</p>
+                        <p class="text-xs text-qf-light-gray">text-sm</p>
+                    </div>
+                    <div>
+                        <p class="text-xs mb-2">Body Extra Small - xs Regular</p>
+                        <p class="text-xs text-qf-light-gray">text-xs</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Buttons -->
+            <section class="glass-container p-8 rounded-lg">
+                <h2 class="text-2xl font-bold mb-6 text-qf-green">Buttons</h2>
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4">Primary Buttons</h3>
+                        <div class="flex flex-wrap gap-4">
+                            <button class="bg-qf-green text-white px-6 py-3 rounded-lg font-medium hover:bg-qf-green/80 transition-colors">
+                                Primary Button
+                            </button>
+                            <button class="bg-qf-green text-white px-4 py-2 rounded-lg font-medium hover:bg-qf-green/80 transition-colors">
+                                Small Primary
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4">Secondary Buttons</h3>
+                        <div class="flex flex-wrap gap-4">
+                            <button class="border border-white/30 text-white px-6 py-3 rounded-lg font-medium hover:bg-white/10 transition-colors">
+                                Secondary Button
+                            </button>
+                            <button class="border border-white/30 text-white px-4 py-2 rounded-lg font-medium hover:bg-white/10 transition-colors">
+                                Small Secondary
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold mb-4">Design System Secondary</h3>
+                        <div class="flex flex-wrap gap-4">
+                            <button class="flex items-center justify-center gap-3" style="border-radius: var(--L, 0.25rem); border: 1px solid var(--Bottom-Light-Subtle-Border, rgba(255, 255, 255, 0.80)); background: var(--Surface-Button-Secondary-Secondary, rgba(255, 255, 255, 0.10)); height: var(--L, 2.5rem); padding: var(--Spacing-04, 0.5rem) var(--Spacing-06, 1rem);">
+                                Design System Button <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cards -->
+            <section class="glass-container p-8 rounded-lg">
+                <h2 class="text-2xl font-bold mb-6 text-qf-green">Cards</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="glass-container p-6 rounded-lg flex flex-col h-full">
+                        <h3 class="text-xl font-semibold mb-2">Glass Card</h3>
+                        <p class="text-qf-light-gray text-sm flex-grow">Standard glass morphism card with backdrop blur and subtle border.</p>
+                    </div>
+                    <div class="glass-container p-6 rounded-lg hover:transform hover:-translate-y-1 transition-all duration-300 flex flex-col h-full">
+                        <h3 class="text-xl font-semibold mb-2">Interactive Card</h3>
+                        <p class="text-qf-light-gray text-sm flex-grow">Card with hover effects and smooth transitions.</p>
+                    </div>
+                    <div class="glass-container p-6 rounded-lg flex flex-col h-full">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-qf-green/20 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-star text-qf-green text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold">Icon Card</h3>
+                        </div>
+                        <p class="text-qf-light-gray text-sm flex-grow">Card with icon and structured layout.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Form Elements -->
+            <section class="glass-container p-8 rounded-lg">
+                <h2 class="text-2xl font-bold mb-6 text-qf-green">Form Elements</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Input Field</label>
+                        <input type="text" placeholder="Enter text here" class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-qf-light-gray focus:border-qf-green focus:outline-none transition-colors">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Textarea</label>
+                        <textarea placeholder="Enter description here" rows="3" class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-qf-light-gray focus:border-qf-green focus:outline-none transition-colors resize-none"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Select Dropdown</label>
+                        <select class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:border-qf-green focus:outline-none transition-colors">
+                            <option>Choose an option</option>
+                            <option>Option 1</option>
+                            <option>Option 2</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Checkbox</label>
+                        <div class="flex items-center space-x-2">
+                            <input type="checkbox" class="w-4 h-4 text-qf-green bg-white/10 border-white/20 rounded focus:ring-qf-green">
+                            <span class="text-sm">Check this option</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Spacing System -->
+            <section class="glass-container p-8 rounded-lg">
+                <h2 class="text-2xl font-bold mb-6 text-qf-green">Spacing System</h2>
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <div class="w-16 text-sm font-medium">p-1</div>
+                        <div class="w-4 h-4 bg-qf-green rounded"></div>
+                        <span class="ml-2 text-sm text-qf-light-gray">4px</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-16 text-sm font-medium">p-2</div>
+                        <div class="w-8 h-4 bg-qf-green rounded"></div>
+                        <span class="ml-2 text-sm text-qf-light-gray">8px</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-16 text-sm font-medium">p-3</div>
+                        <div class="w-12 h-4 bg-qf-green rounded"></div>
+                        <span class="ml-2 text-sm text-qf-light-gray">12px</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-16 text-sm font-medium">p-4</div>
+                        <div class="w-16 h-4 bg-qf-green rounded"></div>
+                        <span class="ml-2 text-sm text-qf-light-gray">16px</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-16 text-sm font-medium">p-6</div>
+                        <div class="w-24 h-4 bg-qf-green rounded"></div>
+                        <span class="ml-2 text-sm text-qf-light-gray">24px</span>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-16 text-sm font-medium">p-8</div>
+                        <div class="w-32 h-4 bg-qf-green rounded"></div>
+                        <span class="ml-2 text-sm text-qf-light-gray">32px</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Interactive States -->
+            <section class="glass-container p-8 rounded-lg">
+                <h2 class="text-2xl font-bold mb-6 text-qf-green">Interactive States</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-qf-green/20 rounded-lg mx-auto mb-2 flex items-center justify-center">
+                            <i class="fas fa-heart text-qf-green text-xl"></i>
+                        </div>
+                        <p class="text-sm font-medium">Default State</p>
+                        <p class="text-xs text-qf-light-gray">bg-qf-green/20</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-qf-green/30 rounded-lg mx-auto mb-2 flex items-center justify-center hover:bg-qf-green/40 transition-colors cursor-pointer">
+                            <i class="fas fa-heart text-qf-green text-xl"></i>
+                        </div>
+                        <p class="text-sm font-medium">Hover State</p>
+                        <p class="text-xs text-qf-light-gray">hover:bg-qf-green/40</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-20 h-20 bg-qf-green/50 rounded-lg mx-auto mb-2 flex items-center justify-center">
+                            <i class="fas fa-heart text-white text-xl"></i>
+                        </div>
+                        <p class="text-sm font-medium">Active State</p>
+                        <p class="text-xs text-qf-light-gray">bg-qf-green/50</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+    <script>
+        // Simple initialization for the design system prototype
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('QuickFrame Design System Prototype loaded');
+            
+            // QF Logo navigation
+            const qfLogo = document.querySelector('.text-2xl.font-bold.text-white');
+            if (qfLogo) {
+                qfLogo.addEventListener('click', () => {
+                    window.location.href = '/index.html';
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+# (secure) route group hooks
+
+Hooks in this directory are intended to only be used by components rendered under the (secure) route group.
+
+However, some components in the src/components directory still need this hook, so they may import it as long as they are rendered under the (secure) route group.
+
+## Examples
+
+```typescript
+  // src/app/(secure)/(with-nav)/dashboard/page.tsx
+
+  const { me } = useMe() // Ok
+```
+
+```typescript
+  // src/app/login/page.tsx
+
+  const { me } = useMe() // Error
+```

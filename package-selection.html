@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Package Selection - QuickFrame Prototype</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="shared-styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'qf-green': '#1AC9AA',
+                        'qf-dark': '#181F25',
+                        'qf-darker': '#0F1419',
+                        'qf-gray': '#575A5C',
+                        'qf-light-gray': '#8B8F91',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-qf-darker text-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 h-full z-50" style="width: 72px; border-right: 1px solid rgba(255, 255, 255, 0.20); background: radial-gradient(162.34% 115.1% at 70.34% 91.1%, rgba(26, 201, 170, 0.06) 0%, rgba(24, 31, 37, 0.00) 62.23%), rgba(87, 90, 92, 0.20); backdrop-filter: blur(20px);">
+        <div class="flex flex-col items-center py-6 h-full">
+            <!-- QF Logo -->
+            <a href="index.html" class="text-2xl font-bold text-white mb-8 hover:text-qf-green transition-colors">
+                QF
+            </a>
+            
+            <!-- Navigation Items -->
+            <div class="flex flex-col space-y-4">
+                <a href="index.html" class="p-3 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Table of Contents">
+                    <i class="fas fa-th-large"></i>
+                </a>
+                <a href="package-selection.html" class="p-3 rounded-lg bg-qf-green/20 text-qf-green" title="Package Selection">
+                    <i class="fas fa-box"></i>
+                </a>
+                <a href="service.html" class="p-3 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Service Prototype">
+                    <i class="fas fa-flask"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="nav-width min-h-screen p-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex items-center gap-4 mb-4">
+                <button class="text-white text-lg cursor-pointer transition-colors duration-300 hover:text-qf-green">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="w-px h-6 bg-white"></div>
+                <div>
+                    <h1 class="text-3xl font-bold mb-2">Choose a Starting Point for Your Next Project</h1>
+                    <p class="text-qf-light-gray text-xs">Need more options? Start by selecting a package, then customize with additional services and deliverables.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Package Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6" id="package-grid">
+            <!-- Package cards will be dynamically generated here -->
+        </div>
+
+        <script>
+            // Package data
+            const packageData = [
+                {
+                    title: "Quick-Enhance Post-Production",
+                    description: "If you prefer to use stock footage to quickly build a :30s video, this is the post-production package for you. Your video professional will source stock footage, script and produce a voiceover track and add music to create (up to) a 30 second video ad.\n\nExpected Turnaround Time from Video Pro Match: 2-3 Weeks",
+                    logo: "QF",
+                    logoColor: "bg-qf-green",
+                    price: "4,000",
+                    label: "Starting at"
+                },
+                {
+                    title: "Product Spotlight CTV Commercial",
+                    description: "Get social ads each month to keep your brand in front of your customers. Get social ads each month to keep your brand in front of your customers. Get social ads each month to keep your brand in front of your customers.",
+                    logo: "M",
+                    logoColor: "bg-qf-green",
+                    price: "7,000",
+                    label: "Starting at"
+                },
+                {
+                    title: "Live Action CTV Commercial",
+                    description: "Get social ads each month to keep your brand in front of your customers. Get social ads each month to keep your brand in front of your customers. Get social ads each month to keep your brand in front of your customers.",
+                    logo: "QF",
+                    logoColor: "bg-qf-green",
+                    price: "11,500",
+                    label: "Starting at"
+                },
+                {
+                    title: "Testimonial / Case Study CTV Commercial",
+                    description: "Get social ads each month to keep your brand in front of your customers. Get social ads each month to keep your brand in front of your customers. Get social ads each month to keep your brand in front of your customers.",
+                    logo: "M",
+                    logoColor: "bg-qf-green",
+                    price: "7,000",
+                    label: "Starting at"
+                },
+                {
+                    title: "Concepting & Ideation",
+                    description: "Get social ads each month to keep your brand in front of your customers. Get social ads each month to keep your brand in front of your customers. Get social ads each month to keep your brand in front of your customers.",
+                    logo: "M",
+                    logoColor: "bg-qf-green",
+                    price: "500",
+                    label: "Starting at"
+                },
+                {
+                    title: "3D Animated CTV Commercial",
+                    description: "Get social ads each month to keep your brand in front of your customers. Get social ads each month to keep your brand in front of your customers. Get social ads each month to keep your brand in front of your customers.",
+                    logo: "TikTok",
+                    logoColor: "bg-black",
+                    price: "15,000",
+                    label: "Starting at"
+                },
+                {
+                    title: "2D Animated CTV Commercial",
+                    description: "Get social ads each month to keep your brand in front of your customers.",
+                    logo: "M",
+                    logoColor: "bg-qf-green",
+                    price: "8,500",
+                    label: "Starting at"
+                }
+            ];
+
+            // Function to create package card HTML
+            function createPackageCard(package) {
+                const logoIcon = package.logo === "TikTok" ? 
+                    '<i class="fab fa-tiktok text-white text-sm"></i>' : 
+                    `<span class="text-white font-bold text-sm">${package.logo}</span>`;
+                
+                const logoLabel = package.logo === "M" ? 
+                    '<span class="text-xs text-qf-light-gray">mntn</span>' : '';
+
+                return `
+                    <div class="package-card glass-container p-6 rounded-lg flex flex-col h-full">
+                        <!-- Header with logo -->
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-semibold text-white">${package.title}</h3>
+                            <div class="flex items-center gap-2">
+                                <div class="w-10 h-10 ${package.logoColor} rounded-lg flex items-center justify-center">
+                                    ${logoIcon}
+                                </div>
+                                ${logoLabel}
+                            </div>
+                        </div>
+                        
+                        <!-- Description -->
+                        <p class="text-qf-light-gray text-sm leading-relaxed mb-4 flex-grow">
+                            ${package.description}
+                        </p>
+                        
+                        <!-- Price and actions -->
+                        <div class="flex items-center justify-between">
+                            <p class="text-white font-semibold">${package.label} <span class="text-qf-green">$${package.price}</span></p>
+                            <div class="flex gap-2">
+                                <button class="text-qf-light-gray hover:text-white transition-colors text-sm flex items-center gap-1">
+                                    Quickview <i class="fas fa-circle text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Primary action button -->
+                        <button class="w-full mt-4 flex items-center justify-center gap-3 bg-white/10 hover:bg-white/20 active:bg-white/10 border border-white/10 rounded h-10 px-4 py-2 text-white font-medium transition-colors">
+                            Start here <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                `;
+            }
+
+            // Generate package cards when page loads
+            document.addEventListener('DOMContentLoaded', function() {
+                const packageGrid = document.getElementById('package-grid');
+                if (packageGrid) {
+                    packageGrid.innerHTML = packageData.map(createPackageCard).join('');
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>
