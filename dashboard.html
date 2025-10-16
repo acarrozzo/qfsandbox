@@ -383,6 +383,25 @@
             if (toolbarRight && typeof UIComponents !== 'undefined') {
                 const search = UIComponents.searchInput({ className: 'w-40', size: 'sm' });
                 
+                // Sort/Filter flyout (next to search)
+                const filterFlyout = `
+                    <div class="relative" id="sort-flyout-container">
+                        <button id="sort-button" class="flex items-center justify-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/10 rounded backdrop-blur-[12px] text-white font-medium transition-colors w-40">
+                            <span id="sort-button-text">Sort</span>
+                            <i class="fas fa-sort"></i>
+                        </button>
+                        <div id="sort-flyout" class="hidden absolute top-full left-0 mt-1 bg-white/10 border border-white/10 rounded backdrop-blur-[12px] shadow-lg z-50 w-56">
+                            <div class="py-2">
+                                <label class="flex items-center px-4 py-2 text-sm text-white hover:bg-white/10 cursor-pointer"><input type="radio" name="sortOpt" class="mr-2" value="">Default</label>
+                                <label class="flex items-center px-4 py-2 text-sm text-white hover:bg-white/10 cursor-pointer"><input type="radio" name="sortOpt" class="mr-2" value="date_updated">Date Updated (last)</label>
+                                <label class="flex items-center px-4 py-2 text-sm text-white hover:bg-white/10 cursor-pointer"><input type="radio" name="sortOpt" class="mr-2" value="status">Status</label>
+                                <label class="flex items-center px-4 py-2 text-sm text-white hover:bg-white/10 cursor-pointer"><input type="radio" name="sortOpt" class="mr-2" value="bidding_date">Bidding Date</label>
+                                <label class="flex items-center px-4 py-2 text-sm text-white hover:bg-white/10 cursor-pointer"><input type="radio" name="sortOpt" class="mr-2" value="due_date">Due Date</label>
+                                <label class="flex items-center px-4 py-2 text-sm text-white hover:bg-white/10 cursor-pointer"><input type="radio" name="sortOpt" class="mr-2" value="cost">Cost</label>
+                            </div>
+                        </div>
+                    </div>`;
+                
                 // Brand dropdown data
                 const brandOptions = [
                     { value: '', label: 'All Brands' },
@@ -434,7 +453,7 @@
                 const brandWrapper = `<div id="filter-brand" class="hidden">${brandDropdownHtml}</div>`;
                 const videoWrapper = `<div id="filter-video">${videoProDropdownHtml}</div>`;
                 const newProjectWrapper = `<div id="new-project-btn-wrap">${newProjectHtml}</div>`;
-                toolbarRight.innerHTML = `${search}\n${brandWrapper}\n${videoWrapper}\n${newProjectWrapper}`;
+                toolbarRight.innerHTML = `${search}\n${filterFlyout}\n${brandWrapper}\n${videoWrapper}\n${newProjectWrapper}`;
                 
                 // Add tiny fixed toggle buttons (top-right)
                 const tinyBtns = `
@@ -455,6 +474,41 @@
                     console.log('Video Pro selected:', value, label);
                     // Add your video pro filter logic here
                 });
+
+                // Sort flyout logic
+                const sortContainer = document.getElementById('sort-flyout-container');
+                const sortFlyout = document.getElementById('sort-flyout');
+                const sortButton = document.getElementById('sort-button');
+                const sortButtonText = document.getElementById('sort-button-text');
+                if (sortContainer && sortFlyout && sortButton && sortButtonText) {
+                    sortButton.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        sortFlyout.classList.toggle('hidden');
+                    });
+                    const radios = sortFlyout.querySelectorAll('input[name="sortOpt"]');
+                    radios.forEach(r => {
+                        r.addEventListener('change', () => {
+                            const value = r.value;
+                            const label = r.parentElement.textContent.trim();
+                            console.log('Sort by:', value);
+                            sortFlyout.classList.add('hidden');
+                            // Update button text to show current sort
+                            if (value === '') {
+                                sortButtonText.textContent = 'Sort';
+                            } else if (value === 'date_updated') {
+                                sortButtonText.textContent = 'Date';
+                            } else {
+                                sortButtonText.textContent = label;
+                            }
+                            // TODO: implement sorting of bids/projects sections using value
+                        });
+                    });
+                    document.addEventListener('click', (e) => {
+                        if (!sortContainer.contains(e.target)) {
+                            sortFlyout.classList.add('hidden');
+                        }
+                    });
+                }
 
                 // Mode handlers
                 const brandWrapEl = document.getElementById('filter-brand');
@@ -496,6 +550,22 @@
                         <input type="text" placeholder="Search" class="w-40 px-4 py-2 bg-white/10 border border-white/20 rounded backdrop-blur-[12px] text-white placeholder-qf-light-gray focus:border-qf-green focus:outline-none transition-colors">
                         <i class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-qf-light-gray"></i>
                     </div>
+                    <div class="relative">
+                        <button id="sort-button-fallback" class="flex items-center justify-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/10 rounded backdrop-blur-[12px] text-white font-medium transition-colors w-40">
+                            <span id="sort-button-text-fallback">Sort</span>
+                            <i class="fas fa-sort"></i>
+                        </button>
+                        <div class="hidden absolute top-full left-0 mt-1 bg-white/10 border border-white/10 rounded backdrop-blur-[12px] shadow-lg z-50 w-56" id="sort-flyout-fallback">
+                            <div class="py-2">
+                                <label class="flex items-center px-4 py-2 text-sm text-white hover:bg-white/10 cursor-pointer"><input type="radio" name="sortOptFallback" class="mr-2" value="">Default</label>
+                                <label class="flex items-center px-4 py-2 text-sm text-white hover:bg-white/10 cursor-pointer"><input type="radio" name="sortOptFallback" class="mr-2" value="date_updated">Date Updated (last)</label>
+                                <label class="flex items-center px-4 py-2 text-sm text-white hover:bg-white/10 cursor-pointer"><input type="radio" name="sortOptFallback" class="mr-2" value="status">Status</label>
+                                <label class="flex items-center px-4 py-2 text-sm text-white hover:bg-white/10 cursor-pointer"><input type="radio" name="sortOptFallback" class="mr-2" value="bidding_date">Bidding Date</label>
+                                <label class="flex items-center px-4 py-2 text-sm text-white hover:bg-white/10 cursor-pointer"><input type="radio" name="sortOptFallback" class="mr-2" value="due_date">Due Date</label>
+                                <label class="flex items-center px-4 py-2 text-sm text-white hover:bg-white/10 cursor-pointer"><input type="radio" name="sortOptFallback" class="mr-2" value="cost">Cost</label>
+                            </div>
+                        </div>
+                    </div>
                     <div id="filter-brand" class="relative w-40 hidden">
                         <select class="w-40 px-4 py-2 bg-white/10 border border-white/20 rounded backdrop-blur-[12px] text-white focus:border-qf-green focus:outline-none transition-colors">
                             <option>All Brands</option>
@@ -529,6 +599,41 @@
                         New Project
                     </button>
                 `;
+                
+                // Initialize fallback sort flyout
+                const sortButtonFallback = document.getElementById('sort-button-fallback');
+                const sortFlyoutFallback = document.getElementById('sort-flyout-fallback');
+                const sortButtonTextFallback = document.getElementById('sort-button-text-fallback');
+                if (sortButtonFallback && sortFlyoutFallback && sortButtonTextFallback) {
+                    sortButtonFallback.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        sortFlyoutFallback.classList.toggle('hidden');
+                    });
+                    const radios = sortFlyoutFallback.querySelectorAll('input[name="sortOptFallback"]');
+                    radios.forEach(r => {
+                        r.addEventListener('change', () => {
+                            const value = r.value;
+                            const label = r.parentElement.textContent.trim();
+                            console.log('Sort by:', value);
+                            sortFlyoutFallback.classList.add('hidden');
+                            // Update button text to show current sort
+                            if (value === '') {
+                                sortButtonTextFallback.textContent = 'Sort';
+                            } else if (value === 'date_updated') {
+                                sortButtonTextFallback.textContent = 'Date';
+                            } else {
+                                sortButtonTextFallback.textContent = label;
+                            }
+                            // TODO: implement sorting of bids/projects sections using value
+                        });
+                    });
+                    document.addEventListener('click', (e) => {
+                        if (!sortButtonFallback.closest('.relative').contains(e.target)) {
+                            sortFlyoutFallback.classList.add('hidden');
+                        }
+                    });
+                }
+                
                 // Tiny fixed toggle buttons
                 const tinyBtnsFallback = document.createElement('div');
                 tinyBtnsFallback.id = 'tiny-mode-buttons';

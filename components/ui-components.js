@@ -383,13 +383,13 @@ class UIComponents {
         return `
             <div class="relative ${className}" id="${id}-container">
                 <button id="${id}-button" 
-                        class="flex items-center justify-between w-full ${sizeClasses[size]} bg-white/10 border border-white/20 rounded backdrop-blur-[12px] text-white hover:bg-white/20 transition-colors">
+                        class="flex items-center justify-between w-full ${sizeClasses[size]} bg-white/10 border border-white/10 rounded backdrop-blur-[12px] text-white hover:bg-white/20 transition-colors">
                     <span id="${id}-text">${displayText}</span>
                     <i class="fas fa-chevron-down transition-transform duration-200" id="${id}-arrow"></i>
                 </button>
                 
                 <div id="${id}-menu" 
-                     class="absolute top-full left-0 right-0 mt-1 bg-qf-dark border border-white/20 rounded backdrop-blur-[12px] shadow-lg z-50 hidden">
+                     class="absolute top-full left-0 right-0 mt-1 bg-white/10 border border-white/10 rounded backdrop-blur-[12px] shadow-lg z-50 hidden">
                     ${itemsHtml}
                 </div>
             </div>
