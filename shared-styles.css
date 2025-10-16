@@ -1,5 +1,7 @@
 /* QuickFrame Shared Styles - DRY & Elegant */
 
+/* Standard Border Radius: 4px (use 'rounded' class) */
+
 /* Background */
 body {
     background: url('img/qf-bg-test.png') center center / cover no-repeat fixed;
@@ -9,6 +11,33 @@ body {
 /* Navigation Width - DRY approach */
 .nav-width {
     margin-left: 72px;
+}
+
+/* Mobile Navigation Adjustments */
+@media (max-width: 767px) {
+    .nav-width {
+        margin-left: 0;
+        margin-bottom: 80px; /* Space for bottom navigation */
+    }
+    
+    /* Ensure mobile navigation has proper spacing */
+    .mobile-nav {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+    
+    /* Mobile navigation item styling */
+    .mobile-nav-item {
+        min-width: 60px;
+        text-align: center;
+    }
+    
+    /* Mobile navigation text truncation */
+    .mobile-nav-text {
+        max-width: 60px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 }
 
 /* Glass Morphism Container */

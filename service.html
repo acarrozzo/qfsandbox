@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="shared-styles.css">
+    <script src="components/ui-components.js"></script>
     <script src="https://unpkg.com/@tiptap/pm@2.1.13/dist/index.umd.js"></script>
     <script src="https://unpkg.com/@tiptap/core@2.1.13/dist/index.umd.js"></script>
     <script src="https://unpkg.com/@tiptap/starter-kit@2.1.13/dist/index.umd.js"></script>
@@ -29,7 +30,7 @@
 </head>
 <body class="service-body">
     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 h-full z-50" style="width: 72px; border-right: 1px solid rgba(255, 255, 255, 0.20); background: radial-gradient(162.34% 115.1% at 70.34% 91.1%, rgba(26, 201, 170, 0.06) 0%, rgba(24, 31, 37, 0.00) 62.23%), rgba(87, 90, 92, 0.20); backdrop-filter: blur(20px);">
+    <nav class="fixed top-0 left-0 h-full z-50 hidden md:block" style="width: 72px; border-right: 1px solid rgba(255, 255, 255, 0.20); background: radial-gradient(162.34% 115.1% at 70.34% 91.1%, rgba(26, 201, 170, 0.06) 0%, rgba(24, 31, 37, 0.00) 62.23%), rgba(87, 90, 92, 0.20); backdrop-filter: blur(20px);">
         <div class="flex flex-col items-center py-6 h-full">
             <!-- QF Logo -->
             <a href="index.html" class="text-2xl font-bold text-white mb-8 hover:text-qf-green transition-colors">
@@ -41,6 +42,9 @@
                 <a href="index.html" class="p-3 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Table of Contents">
                     <i class="fas fa-th-large"></i>
                 </a>
+                <a href="dashboard.html" class="p-3 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Dashboard">
+                    <i class="fas fa-chart-line"></i>
+                </a>
                 <a href="package-selection.html" class="p-3 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Package Selection">
                     <i class="fas fa-box"></i>
                 </a>
@@ -51,27 +55,53 @@
         </div>
     </nav>
 
+    <!-- Mobile Bottom Navigation -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50" style="border-top: 1px solid rgba(255, 255, 255, 0.20); background: radial-gradient(162.34% 115.1% at 70.34% 91.1%, rgba(26, 201, 170, 0.06) 0%, rgba(24, 31, 37, 0.00) 62.23%), rgba(87, 90, 92, 0.20); backdrop-filter: blur(20px);">
+        <div class="flex items-center justify-around py-3 px-4">
+            <a href="index.html" class="flex flex-col items-center p-2 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Table of Contents">
+                <i class="fas fa-th-large text-lg mb-1"></i>
+                <span class="text-xs">Table</span>
+            </a>
+            <a href="dashboard.html" class="flex flex-col items-center p-2 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Dashboard">
+                <i class="fas fa-chart-line text-lg mb-1"></i>
+                <span class="text-xs">Dashboard</span>
+            </a>
+            <a href="package-selection.html" class="flex flex-col items-center p-2 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Package Selection">
+                <i class="fas fa-box text-lg mb-1"></i>
+                <span class="text-xs">Package</span>
+            </a>
+            <a href="service.html" class="flex flex-col items-center p-2 rounded-lg bg-qf-green/20 text-qf-green" title="Service Prototype">
+                <i class="fas fa-flask text-lg mb-1"></i>
+                <span class="text-xs">Service</span>
+            </a>
+        </div>
+    </nav>
+
     <!-- Main Content -->
-    <div class="nav-width min-h-screen flex flex-col">
+    <div class="nav-width min-h-screen p-8">
         <!-- Header -->
-        <header class="flex items-center justify-between px-8 py-5">
-            <div class="flex items-center gap-4">
-                <div class="text-white text-lg cursor-pointer transition-colors duration-300 hover:text-qf-green">
-                    <i class="fas fa-arrow-left"></i>
+        <div class="mb-8">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <button class="text-white text-lg cursor-pointer transition-colors duration-300 hover:text-qf-green" aria-label="Go back">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <div class="w-px h-6 bg-white"></div>
+                    <div>
+                        <h1>
+                            <span class="text-2xl font-bold text-white">Concepting</span>
+                            <span class="mx-2 text-2xl font-bold text-qf-green">/</span>
+                            <span class="text-xl font-bold text-qf-light-gray">Round 1 of 3</span>
+                        </h1>
+                        <p class="text-qf-light-gray text-base">Provide your concepting ideas</p>
+                    </div>
                 </div>
-                <div>
-                    <h1 class="text-2xl font-semibold text-white mb-1">Concepting / Round 1 of 3</h1>
-                    <p class="text-sm text-qf-light-gray">Provide your concepting ideas</p>
-                </div>
+                <div class="flex gap-3" id="service-header-actions"></div>
             </div>
-            <div class="flex gap-3">
-                <button class="px-5 py-2 rounded-md text-sm font-medium cursor-pointer transition-all duration-300 bg-qf-gray text-white hover:bg-gray-600">Cancel</button>
-                <button class="px-5 py-2 rounded-md text-sm font-medium cursor-pointer transition-all duration-300 bg-qf-green text-black hover:bg-green-500 hover:-translate-y-0.5">Save</button>
-            </div>
-        </header>
+        </div>
 
         <!-- Content Area -->
-        <div class="flex flex-1 gap-8 px-8 py-6 lg:flex-row flex-col">
+        <div class="flex flex-1 gap-6 lg:flex-row flex-col">
             <!-- Main Panel -->
             <div class="flex-1 overflow-hidden shadow-lg" style="border-radius: 0.5rem; border: 1px solid rgba(255, 255, 255, 0.20); background: radial-gradient(162.34% 115.1% at 70.34% 91.1%, rgba(26, 201, 170, 0.06) 0%, rgba(24, 31, 37, 0.00) 62.23%), rgba(87, 90, 92, 0.20); backdrop-filter: blur(20px);">
                 <!-- Tabs -->
@@ -89,39 +119,22 @@
                             <i class="fas fa-chevron-up text-white cursor-pointer transition-colors duration-300 hover:text-qf-green"></i>
                         </div>
                         <div>
-                            <p class="text-gray-300 leading-relaxed mb-3">I love it! I really like your idea of opening up with a sunrise shot. I'm thinking we close the commercial with a sunset shot to complete the idea.</p>
-                            <p class="text-gray-300 leading-relaxed mb-3">I love it! I really like your idea of opening up with a sunrise shot. I'm thinking we close the commercial with a sunset shot to complete the idea.</p>
-                            <p class="text-gray-300 leading-relaxed mb-3">I love it! I really like your idea of opening up with a sunrise shot. I'm thinking we close the commercial with a sunset shot to complete the idea.</p>
+                            <p class="text-sm text-gray-300 leading-relaxed mb-3">I love it! I really like your idea of opening up with a sunrise shot. I'm thinking we close the commercial with a sunset shot to complete the idea.</p>
+                            <p class="text-sm text-gray-300 leading-relaxed mb-3">I love it! I really like your idea of opening up with a sunrise shot. I'm thinking we close the commercial with a sunset shot to complete the idea.</p>
+                            <p class="text-sm text-gray-300 leading-relaxed mb-3">I love it! I really like your idea of opening up with a sunrise shot. I'm thinking we close the commercial with a sunset shot to complete the idea.</p>
                         </div>
                     </div>
 
                     <!-- Concepting Section -->
                     <div class="border-b border-gray-500 pb-6">
                         <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-white text-base font-semibold">Concepting</h3>
-                            <span class="bg-gray-600 text-white px-3 py-1 rounded-full text-xs font-medium">UPDATE</span>
+                            <h3 class="text-white text-base font-semibold flex items-center gap-2">Concepting <span class="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-medium">UPDATE</span></h3>
                         </div>
                         <div>
                             <div class="border border-gray-500 rounded-md overflow-hidden">
-                                <div class="flex items-center gap-3 px-4 py-3 bg-gray-600 border-b border-gray-500">
-                                    <select id="heading-select" class="bg-gray-500 text-white border border-gray-400 px-3 py-2 rounded text-xs">
-                                        <option value="paragraph">Normal</option>
-                                        <option value="heading1">H1</option>
-                                        <option value="heading2">H2</option>
-                                        <option value="heading3">H3</option>
-                                    </select>
-                                    <div class="flex gap-2">
-                                        <button id="bullet-list" class="bg-transparent border-none text-gray-300 p-2 rounded cursor-pointer transition-all duration-300 text-xs hover:bg-gray-500 hover:text-white" title="Unordered List"><i class="fas fa-list-ul"></i></button>
-                                        <button id="ordered-list" class="bg-transparent border-none text-gray-300 p-2 rounded cursor-pointer transition-all duration-300 text-xs hover:bg-gray-500 hover:text-white" title="Ordered List"><i class="fas fa-list-ol"></i></button>
-                                        <button id="bold" class="bg-transparent border-none text-gray-300 p-2 rounded cursor-pointer transition-all duration-300 text-xs hover:bg-gray-500 hover:text-white" title="Bold"><i class="fas fa-bold"></i></button>
-                                        <button id="italic" class="bg-transparent border-none text-gray-300 p-2 rounded cursor-pointer transition-all duration-300 text-xs hover:bg-gray-500 hover:text-white" title="Italic"><i class="fas fa-italic"></i></button>
-                                        <button id="underline" class="bg-transparent border-none text-gray-300 p-2 rounded cursor-pointer transition-all duration-300 text-xs hover:bg-gray-500 hover:text-white" title="Underline"><i class="fas fa-underline"></i></button>
-                                        <button id="strike" class="bg-transparent border-none text-gray-300 p-2 rounded cursor-pointer transition-all duration-300 text-xs hover:bg-gray-500 hover:text-white" title="Strikethrough"><i class="fas fa-strikethrough"></i></button>
-                                        <button id="text-align-left" class="bg-transparent border-none text-gray-300 p-2 rounded cursor-pointer transition-all duration-300 text-xs hover:bg-gray-500 hover:text-white" title="Align Left"><i class="fas fa-align-left"></i></button>
-                                        <button id="text-align-center" class="bg-transparent border-none text-gray-300 p-2 rounded cursor-pointer transition-all duration-300 text-xs hover:bg-gray-500 hover:text-white" title="Align Center"><i class="fas fa-align-center"></i></button>
-                                        <button id="text-align-right" class="bg-transparent border-none text-gray-300 p-2 rounded cursor-pointer transition-all duration-300 text-xs hover:bg-gray-500 hover:text-white" title="Align Right"><i class="fas fa-align-right"></i></button>
-                                        <button id="text-align-justify" class="bg-transparent border-none text-gray-300 p-2 rounded cursor-pointer transition-all duration-300 text-xs hover:bg-gray-500 hover:text-white" title="Justify"><i class="fas fa-align-justify"></i></button>
-                                    </div>
+                                <div class="flex items-center gap-2 px-3 py-2 bg-gray-600 border-b border-gray-500">
+                                    <div id="heading-select-container"></div>
+                                <div class="flex gap-1.5" id="editor-toolbar-buttons"></div>
                                 </div>
                                 <div id="tiptap-editor" class="min-h-48 p-4 bg-white/10 text-white text-sm leading-relaxed outline-none border-none prose prose-invert max-w-none">
                                 </div>
@@ -136,9 +149,9 @@
                             <i class="fas fa-chevron-down text-white cursor-pointer transition-colors duration-300 hover:text-qf-green"></i>
                         </div>
                         <div class="hidden">
-                            <p class="text-gray-300 leading-relaxed mb-3">Please ensure all concepting ideas align with our brand guidelines and maintain consistency with our established visual identity.</p>
-                            <p class="text-gray-300 leading-relaxed mb-3">Focus on innovative approaches that differentiate us from competitors while staying true to our core values.</p>
-                            <p class="text-gray-300 leading-relaxed mb-3">Consider the target audience demographics and ensure messaging resonates with our key market segments.</p>
+                            <p class="text-sm text-gray-300 leading-relaxed mb-3">Please ensure all concepting ideas align with our brand guidelines and maintain consistency with our established visual identity.</p>
+                            <p class="text-sm text-gray-300 leading-relaxed mb-3">Focus on innovative approaches that differentiate us from competitors while staying true to our core values.</p>
+                            <p class="text-sm text-gray-300 leading-relaxed mb-3">Consider the target audience demographics and ensure messaging resonates with our key market segments.</p>
                         </div>
                     </div>
                 </div>
@@ -153,9 +166,7 @@
                             <h3 class="text-white text-base font-semibold mb-1">Files</h3>
                             <p class="text-gray-400 text-sm">View or add reference files here</p>
                         </div>
-                        <button class="bg-gray-600 text-white border-none px-3 py-1.5 rounded text-xs font-medium cursor-pointer transition-all duration-300 hover:bg-gray-500 hover:-translate-y-0.5">
-                            Add Files
-                        </button>
+                        <div id="files-add-action"></div>
                     </div>
                 </div>
                 
@@ -178,15 +189,86 @@
             </div>
             <div class="mb-4">
                 <label class="block text-gray-300 text-sm font-medium mb-2">Content</label>
-                <textarea id="modal-content" class="w-full h-64 bg-white/10 border border-gray-500 rounded-md p-4 text-white placeholder-gray-400 resize-none focus:outline-none focus:border-qf-green" placeholder="Enter your content here..."></textarea>
+                <div id="modal-textarea-container"></div>
             </div>
             <div class="flex justify-end gap-3">
-                <button id="cancel-edit" class="px-4 py-2 bg-gray-600 text-white rounded-md text-sm font-medium hover:bg-gray-500 transition-colors">Cancel</button>
-                <button id="save-edit" class="px-4 py-2 bg-qf-green text-black rounded-md text-sm font-medium hover:bg-green-500 transition-colors">Save Changes</button>
+                <div id="modal-actions" class="flex gap-3"></div>
             </div>
         </div>
     </div>
 
     <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof UIComponents !== 'undefined') {
+                // Header actions
+                const headerActions = document.getElementById('service-header-actions');
+                if (headerActions) {
+                    headerActions.innerHTML = [
+                        UIComponents.secondaryButton('Cancel', { size: 'sm' }),
+                        UIComponents.primaryButton('Save', { size: 'sm' })
+                    ].join('');
+                }
+
+                // Heading select
+                const headingSelect = document.getElementById('heading-select-container');
+                if (headingSelect) {
+                    headingSelect.innerHTML = UIComponents.select({
+                        options: [
+                            { value: 'paragraph', label: 'Normal' },
+                            { value: 'heading1', label: 'H1' },
+                            { value: 'heading2', label: 'H2' },
+                            { value: 'heading3', label: 'H3' }
+                        ],
+                        value: 'paragraph',
+                        size: 'sm'
+                    });
+                }
+
+                // Editor toolbar (use ghost small buttons with icons)
+                const editorToolbar = document.getElementById('editor-toolbar-buttons');
+                if (editorToolbar) {
+                    editorToolbar.innerHTML = [
+                        UIComponents.ghostButton('', { size: 'xs', icon: 'fas fa-list-ul' }),
+                        UIComponents.ghostButton('', { size: 'xs', icon: 'fas fa-list-ol' }),
+                        UIComponents.ghostButton('', { size: 'xs', icon: 'fas fa-bold' }),
+                        UIComponents.ghostButton('', { size: 'xs', icon: 'fas fa-italic' }),
+                        UIComponents.ghostButton('', { size: 'xs', icon: 'fas fa-underline' }),
+                        UIComponents.ghostButton('', { size: 'xs', icon: 'fas fa-strikethrough' }),
+                        UIComponents.ghostButton('', { size: 'xs', icon: 'fas fa-align-left' }),
+                        UIComponents.ghostButton('', { size: 'xs', icon: 'fas fa-align-center' }),
+                        UIComponents.ghostButton('', { size: 'xs', icon: 'fas fa-align-right' }),
+                        UIComponents.ghostButton('', { size: 'xs', icon: 'fas fa-align-justify' })
+                    ].join('');
+                }
+
+                // Files panel add action
+                const filesAdd = document.getElementById('files-add-action');
+                if (filesAdd) {
+                    filesAdd.innerHTML = UIComponents.secondaryButton('Add Files', { size: 'sm' });
+                }
+
+                // Modal textarea
+                const modalTextarea = document.getElementById('modal-textarea-container');
+                if (modalTextarea) {
+                    modalTextarea.innerHTML = UIComponents.input({
+                        type: 'textarea',
+                        placeholder: 'Enter your content here...',
+                        size: 'sm',
+                        className: 'h-64 resize-none'
+                    });
+                }
+
+                // Modal actions
+                const modalActions = document.getElementById('modal-actions');
+                if (modalActions) {
+                    modalActions.innerHTML = [
+                        UIComponents.secondaryButton('Cancel', { size: 'sm' }),
+                        UIComponents.primaryButton('Save Changes', { size: 'sm' })
+                    ].join('');
+                }
+            }
+        });
+    </script>
 </body>
 </html>

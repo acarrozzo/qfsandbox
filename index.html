@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="shared-styles.css">
+    <script src="components/ui-components.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -25,7 +26,7 @@
 </head>
 <body class="bg-qf-darker text-white">
     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 h-full z-50" style="width: 72px; border-right: 1px solid rgba(255, 255, 255, 0.20); background: radial-gradient(162.34% 115.1% at 70.34% 91.1%, rgba(26, 201, 170, 0.06) 0%, rgba(24, 31, 37, 0.00) 62.23%), rgba(87, 90, 92, 0.20); backdrop-filter: blur(20px);">
+    <nav class="fixed top-0 left-0 h-full z-50 hidden md:block" style="width: 72px; border-right: 1px solid rgba(255, 255, 255, 0.20); background: radial-gradient(162.34% 115.1% at 70.34% 91.1%, rgba(26, 201, 170, 0.06) 0%, rgba(24, 31, 37, 0.00) 62.23%), rgba(87, 90, 92, 0.20); backdrop-filter: blur(20px);">
         <div class="flex flex-col items-center py-6 h-full">
             <!-- QF Logo -->
             <a href="index.html" class="text-2xl font-bold text-white mb-8 hover:text-qf-green transition-colors">
@@ -37,6 +38,9 @@
                 <a href="index.html" class="p-3 rounded-lg bg-qf-green/20 text-qf-green" title="Table of Contents">
                     <i class="fas fa-th-large"></i>
                 </a>
+                <a href="dashboard.html" class="p-3 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Dashboard">
+                    <i class="fas fa-chart-line"></i>
+                </a>
                 <a href="package-selection.html" class="p-3 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Package Selection">
                     <i class="fas fa-box"></i>
                 </a>
@@ -47,20 +51,57 @@
         </div>
     </nav>
 
+    <!-- Mobile Bottom Navigation -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50" style="border-top: 1px solid rgba(255, 255, 255, 0.20); background: radial-gradient(162.34% 115.1% at 70.34% 91.1%, rgba(26, 201, 170, 0.06) 0%, rgba(24, 31, 37, 0.00) 62.23%), rgba(87, 90, 92, 0.20); backdrop-filter: blur(20px);">
+        <div class="flex items-center justify-around py-3 px-4">
+            <a href="index.html" class="flex flex-col items-center p-2 rounded-lg bg-qf-green/20 text-qf-green" title="Table of Contents">
+                <i class="fas fa-th-large text-lg mb-1"></i>
+                <span class="text-xs">Table</span>
+            </a>
+            <a href="dashboard.html" class="flex flex-col items-center p-2 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Dashboard">
+                <i class="fas fa-chart-line text-lg mb-1"></i>
+                <span class="text-xs">Dashboard</span>
+            </a>
+            <a href="package-selection.html" class="flex flex-col items-center p-2 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Package Selection">
+                <i class="fas fa-box text-lg mb-1"></i>
+                <span class="text-xs">Package</span>
+            </a>
+            <a href="service.html" class="flex flex-col items-center p-2 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Service Prototype">
+                <i class="fas fa-flask text-lg mb-1"></i>
+                <span class="text-xs">Service</span>
+            </a>
+        </div>
+    </nav>
+
     <!-- Main Content -->
     <div class="nav-width min-h-screen p-8">
         <!-- Header -->
-        <div class="mb-12">
-            <h1 class="text-4xl font-bold mb-4">QuickFrame Front-End Sandbox</h1>
-            <p class="text-qf-light-gray text-lg">UI/UX Experimentation & Responsive Design Prototype</p>
+        <div class="mb-8">
+            <div class="flex items-center gap-4 mb-4">
+                <div>
+                    <h1 class="text-2xl font-bold">QuickFrame Front-End Sandbox</h1>
+                    <p class="text-qf-light-gray text-base">UI/UX Experimentation & Responsive Design Prototype</p>
+                </div>
+            </div>
         </div>
 
         <!-- Design System Showcase -->
-        <div class="space-y-16">
+        <div class="flex flex-col gap-8">
             <!-- Navigation to Pages -->
             <section class="glass-container p-8 rounded-lg">
                 <h2 class="text-2xl font-bold mb-6 text-qf-green">Live Pages</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <!-- Dashboard -->
+                    <a href="dashboard.html" class="page-card glass-container p-6 rounded-lg">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-qf-green/20 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-chart-line text-qf-green text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold">Dashboard</h3>
+                        </div>
+                        <p class="text-qf-light-gray text-sm">Project dashboard with bids and project management</p>
+                    </a>
+
                     <!-- Package Selection -->
                     <a href="package-selection.html" class="page-card glass-container p-6 rounded-lg">
                         <div class="flex items-center mb-4">
@@ -78,7 +119,7 @@
                             <div class="w-12 h-12 bg-qf-green/20 rounded-lg flex items-center justify-center mr-4">
                                 <i class="fas fa-flask text-qf-green text-xl"></i>
                             </div>
-                            <h3 class="text-xl font-semibold">Service Prototype</h3>
+                            <h3 class="text-xl font-semibold">Service</h3>
                         </div>
                         <p class="text-qf-light-gray text-sm">Concepting and ideation interface</p>
                     </a>
@@ -212,35 +253,35 @@
                 <div class="space-y-6">
                     <div>
                         <h1 class="text-4xl font-bold mb-2">Heading 1 - 4xl Bold</h1>
-                        <p class="text-xs text-qf-light-gray">text-4xl font-bold</p>
+                        <p class="text-xs text-qf-light-gray">text-4xl font-bold (36px)</p>
                     </div>
                     <div>
                         <h2 class="text-3xl font-bold mb-2">Heading 2 - 3xl Bold</h2>
-                        <p class="text-xs text-qf-light-gray">text-3xl font-bold</p>
+                        <p class="text-xs text-qf-light-gray">text-3xl font-bold (30px)</p>
                     </div>
                     <div>
                         <h3 class="text-2xl font-bold mb-2">Heading 3 - 2xl Bold</h3>
-                        <p class="text-xs text-qf-light-gray">text-2xl font-bold</p>
+                        <p class="text-xs text-qf-light-gray">text-2xl font-bold (24px)</p>
                     </div>
                     <div>
                         <h4 class="text-xl font-semibold mb-2">Heading 4 - xl Semibold</h4>
-                        <p class="text-xs text-qf-light-gray">text-xl font-semibold</p>
+                        <p class="text-xs text-qf-light-gray">text-xl font-semibold (20px)</p>
                     </div>
                     <div>
                         <p class="text-lg mb-2">Body Large - lg Regular</p>
-                        <p class="text-xs text-qf-light-gray">text-lg</p>
+                        <p class="text-xs text-qf-light-gray">text-lg (18px)</p>
                     </div>
                     <div>
                         <p class="text-base mb-2">Body Regular - base Regular</p>
-                        <p class="text-xs text-qf-light-gray">text-base</p>
+                        <p class="text-xs text-qf-light-gray">text-base (16px)</p>
                     </div>
                     <div>
                         <p class="text-sm mb-2">Body Small - sm Regular</p>
-                        <p class="text-xs text-qf-light-gray">text-sm</p>
+                        <p class="text-xs text-qf-light-gray">text-sm (14px)</p>
                     </div>
                     <div>
                         <p class="text-xs mb-2">Body Extra Small - xs Regular</p>
-                        <p class="text-xs text-qf-light-gray">text-xs</p>
+                        <p class="text-xs text-qf-light-gray">text-xs (12px)</p>
                     </div>
                 </div>
             </section>
@@ -248,39 +289,429 @@
             <!-- Buttons -->
             <section class="glass-container p-8 rounded-lg">
                 <h2 class="text-2xl font-bold mb-6 text-qf-green">Buttons</h2>
-                <div class="space-y-6">
-                    <div>
-                        <h3 class="text-lg font-semibold mb-4">Primary Buttons</h3>
-                        <div class="flex flex-wrap gap-4">
-                            <button class="bg-qf-green text-white px-6 py-3 rounded-lg font-medium hover:bg-qf-green/80 transition-colors">
-                                Primary Button
-                            </button>
-                            <button class="bg-qf-green text-white px-4 py-2 rounded-lg font-medium hover:bg-qf-green/80 transition-colors">
-                                Small Primary
-                            </button>
+                
+                <!-- System Overview -->
+                <div class="bg-qf-dark/50 p-6 rounded mb-8">
+                    <h3 class="text-lg font-semibold text-white mb-3">QuickFrame Button System</h3>
+                    <p class="text-sm text-qf-light-gray leading-relaxed">
+                        QuickFrame button system uses a <span class="text-white font-medium">4px border radius</span> (Tailwind <code class="text-qf-green bg-qf-dark/30 px-1 rounded">rounded</code>) and four size tokens: 
+                        <code class="text-qf-green bg-qf-dark/30 px-1 rounded">xs</code> (32px), 
+                        <code class="text-qf-green bg-qf-dark/30 px-1 rounded">sm</code> (40px), 
+                        <code class="text-qf-green bg-qf-dark/30 px-1 rounded">md</code> (48px), 
+                        <code class="text-qf-green bg-qf-dark/30 px-1 rounded">lg</code> (56px). 
+                        Use the shared <code class="text-qf-green bg-qf-dark/30 px-1 rounded">UIComponents</code> API below to render buttons consistently.
+                    </p>
+                </div>
+
+                <!-- Live Button Examples -->
+                <div class="bg-qf-dark/30 p-6 rounded mb-8">
+                    <h3 class="text-lg font-semibold text-white mb-4">Live Button Examples</h3>
+                    <p class="text-sm text-qf-light-gray mb-6">All buttons rendered using the shared UIComponents system with 4px border radius.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Primary Examples -->
+                        <div class="space-y-3">
+                            <h4 class="text-sm font-medium text-white">Primary Buttons</h4>
+                            <div class="space-y-2">
+                                <div id="live-btn-primary-xs"></div>
+                                <div id="live-btn-primary-sm"></div>
+                                <div id="live-btn-primary-md"></div>
+                                <div id="live-btn-primary-lg"></div>
+                            </div>
+                        </div>
+
+                        <!-- Secondary Examples -->
+                        <div class="space-y-3">
+                            <h4 class="text-sm font-medium text-white">Secondary Buttons</h4>
+                            <div class="space-y-2">
+                                <div id="live-btn-secondary-xs"></div>
+                                <div id="live-btn-secondary-sm"></div>
+                                <div id="live-btn-secondary-md"></div>
+                                <div id="live-btn-secondary-lg"></div>
+                            </div>
+                        </div>
+
+                        <!-- Tertiary Examples -->
+                        <div class="space-y-3">
+                            <h4 class="text-sm font-medium text-white">Tertiary Buttons</h4>
+                            <div class="space-y-2">
+                                <div id="live-btn-tertiary-xs"></div>
+                                <div id="live-btn-tertiary-sm"></div>
+                                <div id="live-btn-tertiary-md"></div>
+                                <div id="live-btn-tertiary-lg"></div>
+                            </div>
+                        </div>
+
+                        <!-- Ghost Examples -->
+                        <div class="space-y-3">
+                            <h4 class="text-sm font-medium text-white">Ghost Buttons</h4>
+                            <div class="space-y-2">
+                                <div id="live-btn-ghost-xs"></div>
+                                <div id="live-btn-ghost-sm"></div>
+                                <div id="live-btn-ghost-md"></div>
+                                <div id="live-btn-ghost-lg"></div>
+                            </div>
+                        </div>
+
+                        <!-- Icon Examples -->
+                        <div class="space-y-3">
+                            <h4 class="text-sm font-medium text-white">With Icons</h4>
+                            <div class="space-y-2">
+                                <div id="live-btn-icon-add"></div>
+                                <div id="live-btn-icon-search"></div>
+                                <div id="live-btn-icon-download"></div>
+                            </div>
+                        </div>
+
+                        <!-- Disabled Examples -->
+                        <div class="space-y-3">
+                            <h4 class="text-sm font-medium text-white">Disabled States</h4>
+                            <div class="space-y-2">
+                                <div id="live-btn-disabled-primary"></div>
+                                <div id="live-btn-disabled-secondary"></div>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Examples -->
+                        <div class="space-y-3">
+                            <h4 class="text-sm font-medium text-white">Interactive Examples</h4>
+                            <div class="space-y-2">
+                                <div id="live-btn-interactive-1"></div>
+                                <div id="live-btn-interactive-2"></div>
+                                <div id="live-btn-interactive-3"></div>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <h3 class="text-lg font-semibold mb-4">Secondary Buttons</h3>
-                        <div class="flex flex-wrap gap-4">
-                            <button class="border border-white/30 text-white px-6 py-3 rounded-lg font-medium hover:bg-white/10 transition-colors">
-                                Secondary Button
-                            </button>
-                            <button class="border border-white/30 text-white px-4 py-2 rounded-lg font-medium hover:bg-white/10 transition-colors">
-                                Small Secondary
-                            </button>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Left Column -->
+                    <div class="space-y-8">
+                        <!-- Primary Buttons -->
+                        <div class="bg-qf-dark/30 p-6 rounded">
+                            <h3 class="text-lg font-semibold text-white mb-4">Primary Buttons</h3>
+                            <p class="text-sm text-qf-light-gray mb-4">Standard primary actions with QF green background. Use for main CTAs.</p>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex flex-wrap items-center gap-3 mb-2">
+                                        <div id="btn-primary-xs"></div>
+                                        <div id="btn-primary-sm"></div>
+                                        <div id="btn-primary-md"></div>
+                                        <div id="btn-primary-lg"></div>
+                                    </div>
+                                    <p class="text-xs text-qf-light-gray">Sizes: xs, sm, md, lg</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 p-3 bg-qf-dark/50 rounded">
+                                <p class="text-xs text-qf-light-gray mb-1">Styles:</p>
+                                <code class="text-xs text-qf-green">bg-qf-green text-black rounded</code>
+                            </div>
+                            <div class="mt-3 p-3 bg-qf-dark/50 rounded">
+                                <p class="text-xs text-qf-light-gray mb-2">Dimensions:</p>
+                                <div class="space-y-1">
+                                    <div class="flex justify-between text-xs">
+                                        <span class="text-qf-light-gray">Extra Small (xs):</span>
+                                        <span class="text-white">32px height, 12px font</span>
+                                    </div>
+                                    <div class="flex justify-between text-xs">
+                                        <span class="text-qf-light-gray">Small (sm):</span>
+                                        <span class="text-white">40px height, 14px font</span>
+                                    </div>
+                                    <div class="flex justify-between text-xs">
+                                        <span class="text-qf-light-gray">Medium (md):</span>
+                                        <span class="text-white">48px height, 16px font</span>
+                                    </div>
+                                    <div class="flex justify-between text-xs">
+                                        <span class="text-qf-light-gray">Large (lg):</span>
+                                        <span class="text-white">56px height, 18px font</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Secondary Buttons -->
+                        <div class="bg-qf-dark/30 p-6 rounded">
+                            <h3 class="text-lg font-semibold text-white mb-4">Secondary Buttons</h3>
+                            <p class="text-sm text-qf-light-gray mb-4">Glass-style buttons with subtle background. Use for secondary actions.</p>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex flex-wrap items-center gap-3 mb-2">
+                                        <div id="btn-secondary-xs"></div>
+                                        <div id="btn-secondary-sm"></div>
+                                        <div id="btn-secondary-md"></div>
+                                        <div id="btn-secondary-lg"></div>
+                                    </div>
+                                    <p class="text-xs text-qf-light-gray">Sizes: xs, sm, md, lg</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 p-3 bg-qf-dark/50 rounded">
+                                <p class="text-xs text-qf-light-gray mb-1">Styles:</p>
+                                <code class="text-xs text-qf-green">bg-white/10 border border-white/10 rounded</code>
+                            </div>
+                            <div class="mt-3 p-3 bg-qf-dark/50 rounded">
+                                <p class="text-xs text-qf-light-gray mb-2">Dimensions:</p>
+                                <div class="space-y-1">
+                                    <div class="flex justify-between text-xs">
+                                        <span class="text-qf-light-gray">Extra Small (xs):</span>
+                                        <span class="text-white">32px height, 12px font</span>
+                                    </div>
+                                    <div class="flex justify-between text-xs">
+                                        <span class="text-qf-light-gray">Small (sm):</span>
+                                        <span class="text-white">40px height, 14px font</span>
+                                    </div>
+                                    <div class="flex justify-between text-xs">
+                                        <span class="text-qf-light-gray">Medium (md):</span>
+                                        <span class="text-white">48px height, 16px font</span>
+                                    </div>
+                                    <div class="flex justify-between text-xs">
+                                        <span class="text-qf-light-gray">Large (lg):</span>
+                                        <span class="text-white">56px height, 18px font</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tertiary Buttons -->
+                        <div class="bg-qf-dark/30 p-6 rounded">
+                            <h3 class="text-lg font-semibold text-white mb-4">Tertiary Buttons</h3>
+                            <p class="text-sm text-qf-light-gray mb-4">Text-style buttons with no background. Use for subtle actions.</p>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex flex-wrap items-center gap-3 mb-2">
+                                        <div id="btn-tertiary-xs"></div>
+                                        <div id="btn-tertiary-sm"></div>
+                                        <div id="btn-tertiary-md"></div>
+                                        <div id="btn-tertiary-lg"></div>
+                                    </div>
+                                    <p class="text-xs text-qf-light-gray">Sizes: xs, sm, md, lg</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 p-3 bg-qf-dark/50 rounded">
+                                <p class="text-xs text-qf-light-gray mb-1">Styles:</p>
+                                <code class="text-xs text-qf-green">bg-transparent hover:bg-white/10 rounded</code>
+                            </div>
+                            <div class="mt-3 p-3 bg-qf-dark/50 rounded">
+                                <p class="text-xs text-qf-light-gray mb-2">Dimensions:</p>
+                                <div class="space-y-1">
+                                    <div class="flex justify-between text-xs">
+                                        <span class="text-qf-light-gray">Extra Small (xs):</span>
+                                        <span class="text-white">32px height, 12px font</span>
+                                    </div>
+                                    <div class="flex justify-between text-xs">
+                                        <span class="text-qf-light-gray">Small (sm):</span>
+                                        <span class="text-white">40px height, 14px font</span>
+                                    </div>
+                                    <div class="flex justify-between text-xs">
+                                        <span class="text-qf-light-gray">Medium (md):</span>
+                                        <span class="text-white">48px height, 16px font</span>
+                                    </div>
+                                    <div class="flex justify-between text-xs">
+                                        <span class="text-qf-light-gray">Large (lg):</span>
+                                        <span class="text-white">56px height, 18px font</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <h3 class="text-lg font-semibold mb-4">Design System Secondary</h3>
-                        <div class="flex flex-wrap gap-4">
-                            <button class="flex items-center justify-center gap-3" style="border-radius: var(--L, 0.25rem); border: 1px solid var(--Bottom-Light-Subtle-Border, rgba(255, 255, 255, 0.80)); background: var(--Surface-Button-Secondary-Secondary, rgba(255, 255, 255, 0.10)); height: var(--L, 2.5rem); padding: var(--Spacing-04, 0.5rem) var(--Spacing-06, 1rem);">
-                                Design System Button <i class="fas fa-arrow-right"></i>
-                            </button>
+
+                    <!-- Right Column -->
+                    <div class="space-y-8">
+                        <!-- Icon Buttons -->
+                        <div class="bg-qf-dark/30 p-6 rounded">
+                            <h3 class="text-lg font-semibold text-white mb-4">Buttons with Icons</h3>
+                            <p class="text-sm text-qf-light-gray mb-4">Primary, secondary, and glass buttons with FontAwesome icons for enhanced UX.</p>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex flex-wrap gap-3 mb-2">
+                                        <div id="btn-icon-add"></div>
+                                        <div id="btn-icon-search"></div>
+                                        <div id="btn-icon-download"></div>
+                                    </div>
+                                    <p class="text-xs text-qf-light-gray">Icons: Add, Search, Download</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 p-3 bg-qf-dark/50 rounded">
+                                <p class="text-xs text-qf-light-gray mb-1">Alignment:</p>
+                                <code class="text-xs text-qf-green">flex items-center gap-2</code>
+                            </div>
+                        </div>
+
+                        <!-- Disabled States -->
+                        <div class="bg-qf-dark/30 p-6 rounded">
+                            <h3 class="text-lg font-semibold text-white mb-4">Disabled States</h3>
+                            <p class="text-sm text-qf-light-gray mb-4">Disabled buttons with reduced opacity and no interaction.</p>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex flex-wrap gap-3 mb-2">
+                                        <div id="btn-disabled-primary"></div>
+                                        <div id="btn-disabled-secondary"></div>
+                                    </div>
+                                    <p class="text-xs text-qf-light-gray">Primary & Secondary disabled</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 p-3 bg-qf-dark/50 rounded">
+                                <p class="text-xs text-qf-light-gray mb-1">Disabled styles:</p>
+                                <code class="text-xs text-qf-green">opacity-50 cursor-not-allowed</code>
+                            </div>
+                        </div>
+
+                        <!-- API Usage -->
+                        <div class="bg-qf-dark/30 p-6 rounded">
+                            <h3 class="text-lg font-semibold text-white mb-4">API Usage</h3>
+                            <p class="text-sm text-qf-light-gray mb-4">Use UIComponents class for consistent button creation across the application.</p>
+                            <div class="bg-qf-dark/50 p-4 rounded">
+                                <pre class="text-xs text-qf-light-gray overflow-x-auto"><code>// Primary Button
+UIComponents.primaryButton('Save', { 
+    icon: 'fas fa-save', 
+    size: 'md' 
+});
+
+// Secondary Button  
+UIComponents.secondaryButton('Cancel', { 
+    size: 'sm' 
+});
+
+// Tertiary Button
+UIComponents.tertiaryButton('New Project', { 
+    icon: 'fas fa-plus', 
+    size: 'lg' 
+});
+
+// With all options
+UIComponents.primaryButton('Submit', {
+    icon: 'fas fa-check',
+    size: 'lg',
+    disabled: false,
+    className: 'custom-class',
+    onClick: 'handleSubmit()'
+});</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Component Options -->
+                        <div class="bg-qf-dark/30 p-6 rounded">
+                            <h3 class="text-lg font-semibold text-white mb-4">Component Options</h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-qf-light-gray">icon</span>
+                                    <code class="text-xs text-qf-green">string (FontAwesome class)</code>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-qf-light-gray">size</span>
+                                    <code class="text-xs text-qf-green">'sm' | 'md' | 'lg'</code>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-qf-light-gray">disabled</span>
+                                    <code class="text-xs text-qf-green">boolean</code>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-qf-light-gray">className</span>
+                                    <code class="text-xs text-qf-green">string (additional CSS)</code>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-qf-light-gray">onClick</span>
+                                    <code class="text-xs text-qf-green">string (function name)</code>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
+
+            <script>
+                function renderButtons() {
+                    if (typeof UIComponents === 'undefined') {
+                        console.log('UIComponents not loaded yet, retrying...');
+                        setTimeout(renderButtons, 100);
+                        return;
+                    }
+
+                    // Live section rendering
+                    const live = {
+                        primaryXs: document.getElementById('live-btn-primary-xs'),
+                        primarySm: document.getElementById('live-btn-primary-sm'),
+                        primaryMd: document.getElementById('live-btn-primary-md'),
+                        primaryLg: document.getElementById('live-btn-primary-lg'),
+                        secondaryXs: document.getElementById('live-btn-secondary-xs'),
+                        secondarySm: document.getElementById('live-btn-secondary-sm'),
+                        secondaryMd: document.getElementById('live-btn-secondary-md'),
+                        secondaryLg: document.getElementById('live-btn-secondary-lg'),
+                        tertiaryXs: document.getElementById('live-btn-tertiary-xs'),
+                        tertiarySm: document.getElementById('live-btn-tertiary-sm'),
+                        tertiaryMd: document.getElementById('live-btn-tertiary-md'),
+                        tertiaryLg: document.getElementById('live-btn-tertiary-lg'),
+                        iconAdd: document.getElementById('live-btn-icon-add'),
+                        iconSearch: document.getElementById('live-btn-icon-search'),
+                        iconDownload: document.getElementById('live-btn-icon-download'),
+                        disabledPrimary: document.getElementById('live-btn-disabled-primary'),
+                        disabledSecondary: document.getElementById('live-btn-disabled-secondary'),
+                        interactive1: document.getElementById('live-btn-interactive-1'),
+                        interactive2: document.getElementById('live-btn-interactive-2'),
+                        interactive3: document.getElementById('live-btn-interactive-3')
+                    };
+
+                    if (live.primaryXs) live.primaryXs.innerHTML = UIComponents.primaryButton('Primary xs', { size: 'xs' });
+                    if (live.primarySm) live.primarySm.innerHTML = UIComponents.primaryButton('Primary sm', { size: 'sm' });
+                    if (live.primaryMd) live.primaryMd.innerHTML = UIComponents.primaryButton('Primary md', { size: 'md' });
+                    if (live.primaryLg) live.primaryLg.innerHTML = UIComponents.primaryButton('Primary lg', { size: 'lg' });
+                    if (live.secondaryXs) live.secondaryXs.innerHTML = UIComponents.secondaryButton('Secondary xs', { size: 'xs' });
+                    if (live.secondarySm) live.secondarySm.innerHTML = UIComponents.secondaryButton('Secondary sm', { size: 'sm' });
+                    if (live.secondaryMd) live.secondaryMd.innerHTML = UIComponents.secondaryButton('Secondary md', { size: 'md' });
+                    if (live.secondaryLg) live.secondaryLg.innerHTML = UIComponents.secondaryButton('Secondary lg', { size: 'lg' });
+                    if (live.tertiaryXs) live.tertiaryXs.innerHTML = UIComponents.tertiaryButton('Tertiary xs', { size: 'xs' });
+                    if (live.tertiarySm) live.tertiarySm.innerHTML = UIComponents.tertiaryButton('Tertiary sm', { size: 'sm' });
+                    if (live.tertiaryMd) live.tertiaryMd.innerHTML = UIComponents.tertiaryButton('Tertiary md', { size: 'md' });
+                    if (live.tertiaryLg) live.tertiaryLg.innerHTML = UIComponents.tertiaryButton('Tertiary lg', { size: 'lg' });
+                    if (live.iconAdd) live.iconAdd.innerHTML = UIComponents.primaryButton('Add New', { icon: 'fas fa-plus', size: 'md' });
+                    if (live.iconSearch) live.iconSearch.innerHTML = UIComponents.secondaryButton('Search', { icon: 'fas fa-search', size: 'md' });
+                    if (live.iconDownload) live.iconDownload.innerHTML = UIComponents.ghostButton('Download', { icon: 'fas fa-download', size: 'md' });
+                    if (live.disabledPrimary) live.disabledPrimary.innerHTML = UIComponents.primaryButton('Disabled Primary', { size: 'md', disabled: true });
+                    if (live.disabledSecondary) live.disabledSecondary.innerHTML = UIComponents.secondaryButton('Disabled Secondary', { size: 'md', disabled: true });
+                    if (live.interactive1) live.interactive1.innerHTML = UIComponents.primaryButton('Save Changes', { icon: 'fas fa-save', size: 'md' });
+                    if (live.interactive2) live.interactive2.innerHTML = UIComponents.secondaryButton('Cancel', { icon: 'fas fa-times', size: 'sm' });
+                    if (live.interactive3) live.interactive3.innerHTML = UIComponents.tertiaryButton('New Project', { icon: 'fas fa-plus', size: 'lg' });
+
+                    // Render Primary sizes
+                    document.getElementById('btn-primary-xs').innerHTML = UIComponents.primaryButton('Primary xs', { size: 'xs' });
+                    document.getElementById('btn-primary-sm').innerHTML = UIComponents.primaryButton('Primary sm', { size: 'sm' });
+                    document.getElementById('btn-primary-md').innerHTML = UIComponents.primaryButton('Primary md', { size: 'md' });
+                    document.getElementById('btn-primary-lg').innerHTML = UIComponents.primaryButton('Primary lg', { size: 'lg' });
+
+                    // Render Secondary sizes
+                    document.getElementById('btn-secondary-xs').innerHTML = UIComponents.secondaryButton('Secondary xs', { size: 'xs' });
+                    document.getElementById('btn-secondary-sm').innerHTML = UIComponents.secondaryButton('Secondary sm', { size: 'sm' });
+                    document.getElementById('btn-secondary-md').innerHTML = UIComponents.secondaryButton('Secondary md', { size: 'md' });
+                    document.getElementById('btn-secondary-lg').innerHTML = UIComponents.secondaryButton('Secondary lg', { size: 'lg' });
+
+                    // Render Tertiary sizes
+                    document.getElementById('btn-tertiary-xs').innerHTML = UIComponents.tertiaryButton('Tertiary xs', { size: 'xs' });
+                    document.getElementById('btn-tertiary-sm').innerHTML = UIComponents.tertiaryButton('Tertiary sm', { size: 'sm' });
+                    document.getElementById('btn-tertiary-md').innerHTML = UIComponents.tertiaryButton('Tertiary md', { size: 'md' });
+                    document.getElementById('btn-tertiary-lg').innerHTML = UIComponents.tertiaryButton('Tertiary lg', { size: 'lg' });
+
+                    // Render Ghost sizes
+                    document.getElementById('live-btn-ghost-xs').innerHTML = UIComponents.ghostButton('Ghost xs', { size: 'xs' });
+                    document.getElementById('live-btn-ghost-sm').innerHTML = UIComponents.ghostButton('Ghost sm', { size: 'sm' });
+                    document.getElementById('live-btn-ghost-md').innerHTML = UIComponents.ghostButton('Ghost md', { size: 'md' });
+                    document.getElementById('live-btn-ghost-lg').innerHTML = UIComponents.ghostButton('Ghost lg', { size: 'lg' });
+
+                    // Icon buttons
+                    document.getElementById('btn-icon-add').innerHTML = UIComponents.primaryButton('Add New', { icon: 'fas fa-plus', size: 'md' });
+                    document.getElementById('btn-icon-search').innerHTML = UIComponents.secondaryButton('Search', { icon: 'fas fa-search', size: 'md' });
+                    document.getElementById('btn-icon-download').innerHTML = UIComponents.tertiaryButton('Download', { icon: 'fas fa-download', size: 'md' });
+
+                    // Disabled
+                    document.getElementById('btn-disabled-primary').innerHTML = UIComponents.primaryButton('Disabled Primary', { size: 'md', disabled: true });
+                    document.getElementById('btn-disabled-secondary').innerHTML = UIComponents.secondaryButton('Disabled Secondary', { size: 'md', disabled: true });
+
+                    // Interactive Examples
+                    document.getElementById('btn-interactive-1').innerHTML = UIComponents.primaryButton('Save Changes', { icon: 'fas fa-save', size: 'md' });
+                    document.getElementById('btn-interactive-2').innerHTML = UIComponents.secondaryButton('Cancel', { icon: 'fas fa-times', size: 'sm' });
+                    document.getElementById('btn-interactive-3').innerHTML = UIComponents.glassButton('New Project', { icon: 'fas fa-plus', size: 'lg' });
+                }
+
+                document.addEventListener('DOMContentLoaded', renderButtons);
+            </script>
 
             <!-- Cards -->
             <section class="glass-container p-8 rounded-lg">
@@ -312,15 +743,15 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-medium mb-2">Input Field</label>
-                        <input type="text" placeholder="Enter text here" class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-qf-light-gray focus:border-qf-green focus:outline-none transition-colors">
+                        <input type="text" placeholder="Enter text here" class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded backdrop-blur-[12px] text-white placeholder-qf-light-gray focus:border-qf-green focus:outline-none transition-colors">
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-2">Textarea</label>
-                        <textarea placeholder="Enter description here" rows="3" class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-qf-light-gray focus:border-qf-green focus:outline-none transition-colors resize-none"></textarea>
+                        <textarea placeholder="Enter description here" rows="3" class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded backdrop-blur-[12px] text-white placeholder-qf-light-gray focus:border-qf-green focus:outline-none transition-colors resize-none"></textarea>
                     </div>
                     <div>
                         <label class="block text-sm font-medium mb-2">Select Dropdown</label>
-                        <select class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:border-qf-green focus:outline-none transition-colors">
+                        <select class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded backdrop-blur-[12px] text-white focus:border-qf-green focus:outline-none transition-colors">
                             <option>Choose an option</option>
                             <option>Option 1</option>
                             <option>Option 2</option>
@@ -329,7 +760,7 @@
                     <div>
                         <label class="block text-sm font-medium mb-2">Checkbox</label>
                         <div class="flex items-center space-x-2">
-                            <input type="checkbox" class="w-4 h-4 text-qf-green bg-white/10 border-white/20 rounded focus:ring-qf-green">
+                            <input type="checkbox" class="w-4 h-4 text-qf-green bg-white/10 border-white/20 rounded backdrop-blur-[12px] focus:ring-qf-green">
                             <span class="text-sm">Check this option</span>
                         </div>
                     </div>
@@ -408,14 +839,6 @@
         // Simple initialization for the design system prototype
         document.addEventListener('DOMContentLoaded', () => {
             console.log('QuickFrame Design System Prototype loaded');
-            
-            // QF Logo navigation
-            const qfLogo = document.querySelector('.text-2xl.font-bold.text-white');
-            if (qfLogo) {
-                qfLogo.addEventListener('click', () => {
-                    window.location.href = '/index.html';
-                });
-            }
         });
     </script>
 </body>

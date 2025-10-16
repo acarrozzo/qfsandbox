@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Dashboard - QuickFrame Prototype</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="shared-styles.css">
+    <script src="components/ui-components.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'qf-green': '#1AC9AA',
+                        'qf-dark': '#181F25',
+                        'qf-darker': '#0F1419',
+                        'qf-gray': '#575A5C',
+                        'qf-light-gray': '#8B8F91',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Additional custom styles for smooth dropdown transitions */
+        #tab-dropdown-menu {
+            transition: all 0.2s ease-in-out;
+        }
+        
+        #dropdown-arrow {
+            transition: transform 0.2s ease-in-out;
+        }
+        
+        /* Ensure dropdown appears above other content */
+        #tab-dropdown-menu {
+            z-index: 50;
+        }
+        
+        /* Active tab border alignment with section border */
+        [data-tab].border-b-2 {
+            border-bottom-width: 2px;
+            /* pull active underline down to meet the container border */
+            margin-bottom: -1px;
+        }
+    </style>
+</head>
+<body class="bg-qf-darker text-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 h-full z-50 hidden md:block" style="width: 72px; border-right: 1px solid rgba(255, 255, 255, 0.20); background: radial-gradient(162.34% 115.1% at 70.34% 91.1%, rgba(26, 201, 170, 0.06) 0%, rgba(24, 31, 37, 0.00) 62.23%), rgba(87, 90, 92, 0.20); backdrop-filter: blur(20px);">
+        <div class="flex flex-col items-center py-6 h-full">
+            <!-- QF Logo -->
+            <a href="index.html" class="text-2xl font-bold text-white mb-8 hover:text-qf-green transition-colors">
+                QF
+            </a>
+            
+            <!-- Navigation Items -->
+            <div class="flex flex-col space-y-4">
+                <a href="index.html" class="p-3 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Table of Contents">
+                    <i class="fas fa-th-large"></i>
+                </a>
+                <a href="dashboard.html" class="p-3 rounded-lg bg-qf-green/20 text-qf-green" title="Dashboard">
+                    <i class="fas fa-chart-line"></i>
+                </a>
+                <a href="package-selection.html" class="p-3 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Package Selection">
+                    <i class="fas fa-box"></i>
+                </a>
+                <a href="service.html" class="p-3 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Service Prototype">
+                    <i class="fas fa-flask"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50" style="border-top: 1px solid rgba(255, 255, 255, 0.20); background: radial-gradient(162.34% 115.1% at 70.34% 91.1%, rgba(26, 201, 170, 0.06) 0%, rgba(24, 31, 37, 0.00) 62.23%), rgba(87, 90, 92, 0.20); backdrop-filter: blur(20px);">
+        <div class="flex items-center justify-around py-3 px-4">
+            <a href="index.html" class="flex flex-col items-center p-2 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Table of Contents">
+                <i class="fas fa-th-large text-lg mb-1"></i>
+                <span class="text-xs">Table</span>
+            </a>
+            <a href="dashboard.html" class="flex flex-col items-center p-2 rounded-lg bg-qf-green/20 text-qf-green" title="Dashboard">
+                <i class="fas fa-chart-line text-lg mb-1"></i>
+                <span class="text-xs">Dashboard</span>
+            </a>
+            <a href="package-selection.html" class="flex flex-col items-center p-2 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Package Selection">
+                <i class="fas fa-box text-lg mb-1"></i>
+                <span class="text-xs">Package</span>
+            </a>
+            <a href="service.html" class="flex flex-col items-center p-2 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Service Prototype">
+                <i class="fas fa-flask text-lg mb-1"></i>
+                <span class="text-xs">Service</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="nav-width min-h-screen p-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-2xl font-bold">Project Dashboard</h1>
+        </div>
+
+        <!-- Tab Navigation, Search, and Action Button -->
+        <div class="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-4 mb-8 border-b border-white/20 pb-2">
+            <!-- Tab Navigation - Desktop: Tabs, Mobile/Tablet: Dropdown -->
+            <div class="relative">
+                <!-- Desktop Tab Navigation -->
+                <div class="hidden xl:flex gap-1 -mb-2">
+                    <button class="px-4 py-4 text-sm font-medium text-white border-b-2 border-qf-green transition-colors relative" data-tab="all">
+                    All
+                </button>
+                    <button class="px-4 py-4 text-sm font-medium text-qf-light-gray hover:text-white transition-colors" data-tab="draft">
+                    Draft
+                </button>
+                    <button class="px-4 py-4 text-sm font-medium text-qf-light-gray hover:text-white transition-colors" data-tab="submitted">
+                    Submitted
+                </button>
+                    <button class="px-4 py-4 text-sm font-medium text-qf-light-gray hover:text-white transition-colors" data-tab="in-progress">
+                    In Progress
+                </button>
+                    <!-- Subtle divider between In Progress and Completed -->
+                    <div class="hidden xl:block w-px h-6 bg-white/20 self-center mx-2"></div>
+                    <button class="px-4 py-4 text-sm font-medium text-qf-light-gray hover:text-white transition-colors" data-tab="completed">
+                    Completed
+                </button>
+                    <button class="px-4 py-4 text-sm font-medium text-qf-light-gray hover:text-white transition-colors" data-tab="archived">
+                    Archived
+                </button>
+            </div>
+
+                <!-- Mobile/Tablet Dropdown Navigation -->
+                <div class="xl:hidden" id="tab-dropdown-container">
+                    <!-- Dropdown will be rendered here by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Search, Filters, and Action Button -->
+            <div id="toolbar-right" class="flex flex-col sm:flex-row gap-3 items-start sm:items-center"></div>
+        </div>
+
+        <!-- You have bids to Review! Section -->
+        <div class="mb-8">
+            <div class="mb-6">
+                <h2 class="text-xl font-bold text-white mb-2">You have bids to Review!</h2>
+                <p class="text-qf-light-gray text-sm">Review and choose who you would like to work with.</p>
+            </div>
+            
+            <div class="space-y-6" id="bids-section">
+                <!-- Large project cards will be dynamically generated here -->
+            </div>
+        </div>
+
+        <!-- My Projects Section -->
+        <div>
+            <div class="mb-6">
+                <h2 class="text-xl font-bold text-white">My Projects</h2>
+            </div>
+            
+            <div class="space-y-3" id="projects-section">
+                <!-- Small project cards will be dynamically generated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Project data for bids to review
+        const bidsData = [
+            {
+                id: 1,
+                title: "Onewheel - Ride the World - Fall Campaign 2024",
+                brand: "Adidas",
+                brandLogo: "Adidas",
+                projectType: "Live Action CTV Commercial",
+                projectTypeLogo: "TikTok",
+                dueDate: "Apr 11 2024",
+                offerExpires: "44 minutes",
+                offerExpiresColor: "text-red-400",
+                offerExpiresIcon: "fas fa-clock",
+                description: "Set against a backdrop of breathtaking landscapes spanning mountains, deserts, forests, and cityscapes, this campaign captures the essence of adventure and freedom that Onewheel represents. The commercial follows a diverse group of riders as they navigate through various terrains, showcasing the versatility and excitement of the Onewheel experience.",
+                mediaType: "video",
+                bidCount: 3
+            },
+            {
+                id: 2,
+                title: "Onewheel - Ride the World - Fall Campaign 2024",
+                brand: "Adidas",
+                brandLogo: "Adidas",
+                projectType: "Live Action CTV Commercial",
+                projectTypeLogo: "TikTok",
+                dueDate: "Apr 11 2024",
+                offerExpires: "3 Days 52 minutes",
+                offerExpiresColor: "text-yellow-400",
+                offerExpiresIcon: "fas fa-clock",
+                description: "Set against a backdrop of breathtaking landscapes spanning mountains, deserts, forests, and cityscapes, this campaign captures the essence of adventure and freedom that Onewheel represents. The commercial follows a diverse group of riders as they navigate through various terrains, showcasing the versatility and excitement of the Onewheel experience.",
+                mediaType: "image",
+                bidCount: 3
+            }
+        ];
+
+        // Project data for my projects
+        const projectsData = [
+            {
+                id: 1,
+                title: "Onewheel - Ride the World - Fall Campaign 2024",
+                brand: "Adidas",
+                brandLogo: "Adidas",
+                projectType: "Live Action CTV Commercial",
+                projectTypeLogo: "TikTok",
+                dueDate: "Apr 11 2025",
+                status: "Pre-Production",
+                statusColor: "bg-cyan-500",
+                icon: "fas fa-running",
+                iconColor: "text-red-500"
+            },
+            {
+                id: 2,
+                title: "Sweet Treats Campaign",
+                brand: "Local Bakery",
+                brandLogo: "Local Bakery",
+                projectType: "Social Media",
+                projectTypeLogo: "Instagram",
+                dueDate: "Mar 15 2025",
+                status: "Completed",
+                statusColor: "bg-yellow-500",
+                icon: "fas fa-birthday-cake",
+                iconColor: "text-yellow-500"
+            },
+            {
+                id: 3,
+                title: "Tech Innovation Showcase",
+                brand: "TechCorp",
+                brandLogo: "TechCorp",
+                projectType: "Product Demo",
+                projectTypeLogo: "YouTube",
+                dueDate: "May 20 2025",
+                status: "Draft",
+                statusColor: "bg-gray-500",
+                icon: "fas fa-play",
+                iconColor: "text-qf-green"
+            },
+            {
+                id: 4,
+                title: "Fashion Forward Collection",
+                brand: "StyleBrand",
+                brandLogo: "StyleBrand",
+                projectType: "Fashion Video",
+                projectTypeLogo: "TikTok",
+                dueDate: "Jun 10 2025",
+                status: "Draft",
+                statusColor: "bg-gray-500",
+                icon: "fas fa-play",
+                iconColor: "text-qf-green"
+            }
+        ];
+
+        // Function to create large project card HTML
+        function createBidCard(project) {
+            const brandLogoHtml = project.brandLogo === "Adidas" ? 
+                '<div class="w-6 h-6 bg-black rounded-full flex items-center justify-center"><span class="text-white text-xs font-bold">A</span></div>' : 
+                `<div class="w-6 h-6 bg-qf-green rounded-full flex items-center justify-center"><span class="text-white text-xs font-bold">${project.brandLogo.charAt(0)}</span></div>`;
+            
+            const projectTypeLogoHtml = project.projectTypeLogo === "TikTok" ? 
+                '<i class="fab fa-tiktok text-white text-sm"></i>' : 
+                `<i class="fab fa-${project.projectTypeLogo.toLowerCase()} text-white text-sm"></i>`;
+
+            const mediaHtml = project.mediaType === "video" ? 
+                '<div class="w-full h-48 bg-qf-dark rounded flex items-center justify-center"><i class="fas fa-play text-qf-green text-3xl"></i></div>' :
+                '<div class="w-full h-48 bg-qf-dark rounded flex items-center justify-center"><img src="https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=400&h=300&fit=crop" alt="Project media" class="w-full h-full object-cover rounded"></div>';
+
+            return `
+                <div class="glass-container p-6 rounded">
+                    <div class="flex gap-6">
+                        <!-- Media Area -->
+                        <div class="flex-shrink-0 relative">
+                            <div class="w-64 h-48">
+                                ${mediaHtml}
+                            </div>
+                            <div class="absolute top-2 right-2">
+                                <span class="bg-cyan-500 text-white px-2 py-1 rounded text-xs font-medium">Review Bids</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Content Area -->
+                        <div class="flex-1 flex flex-col">
+                            <h3 class="text-xl font-bold text-white mb-4">${project.title}</h3>
+                            
+                            <!-- Project Details -->
+                            <div class="space-y-2 mb-4">
+                                <div class="flex items-center gap-2">
+                                    ${brandLogoHtml}
+                                    <span class="text-sm text-white">${project.brand}</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    ${projectTypeLogoHtml}
+                                    <span class="text-sm text-white">${project.projectType}</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-sm text-white">Due Date: ${project.dueDate}</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <i class="${project.offerExpiresIcon} ${project.offerExpiresColor}"></i>
+                                    <span class="text-sm ${project.offerExpiresColor}">Offer Expires in: ${project.offerExpires}</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Description -->
+                            <p class="text-qf-light-gray text-sm leading-relaxed mb-4 flex-grow">
+                                ${project.description}
+                            </p>
+                            
+                            <!-- Action Button (rendered via UIComponents after mount) -->
+                            <div class="flex justify-end" id="review-btn-${project.id}"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to create small project card HTML
+        function createProjectCard(project) {
+            const brandLogoHtml = project.brandLogo === "Adidas" ? 
+                '<div class="w-6 h-6 bg-black rounded-full flex items-center justify-center"><span class="text-white text-xs font-bold">A</span></div>' : 
+                `<div class="w-6 h-6 bg-qf-green rounded-full flex items-center justify-center"><span class="text-white text-xs font-bold">${project.brandLogo.charAt(0)}</span></div>`;
+            
+            const projectTypeLogoHtml = project.projectTypeLogo === "TikTok" ? 
+                '<i class="fab fa-tiktok text-white text-sm"></i>' : 
+                `<i class="fab fa-${project.projectTypeLogo.toLowerCase()} text-white text-sm"></i>`;
+
+            return `
+                <div class="glass-container p-4 rounded flex items-center gap-4 hover:bg-white/5 transition-colors cursor-pointer">
+                    <!-- Icon/Thumbnail -->
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 bg-qf-dark rounded flex items-center justify-center">
+                            <i class="${project.icon} ${project.iconColor} text-lg"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Status Tag -->
+                    <div class="flex-shrink-0">
+                        <span class="${project.statusColor} text-white px-2 py-1 rounded text-xs font-medium">${project.status}</span>
+                    </div>
+                    
+                    <!-- Content -->
+                    <div class="flex-1 min-w-0">
+                        <h3 class="text-white font-medium truncate">${project.title}</h3>
+                        <div class="flex items-center gap-4 mt-1">
+                            <div class="flex items-center gap-1">
+                                ${brandLogoHtml}
+                                <span class="text-xs text-qf-light-gray">${project.brand}</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                ${projectTypeLogoHtml}
+                                <span class="text-xs text-qf-light-gray">${project.projectType}</span>
+                            </div>
+                            <span class="text-xs text-qf-light-gray">Due ${project.dueDate}</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Arrow -->
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-chevron-right text-qf-light-gray"></i>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Generate cards when page loads
+        function renderDashboard() {
+            const bidsSection = document.getElementById('bids-section');
+            const projectsSection = document.getElementById('projects-section');
+            const toolbarRight = document.getElementById('toolbar-right');
+            
+            if (bidsSection) {
+                bidsSection.innerHTML = bidsData.map(createBidCard).join('');
+            }
+            
+            if (projectsSection) {
+                projectsSection.innerHTML = projectsData.map(createProjectCard).join('');
+            }
+
+            if (toolbarRight && typeof UIComponents !== 'undefined') {
+                const search = UIComponents.searchInput({ className: 'w-40', size: 'sm' });
+                
+                // Brand dropdown data
+                const brandOptions = [
+                    { value: '', label: 'All Brands' },
+                    { value: 'nike', label: 'Nike' },
+                    { value: 'adidas', label: 'Adidas' },
+                    { value: 'apple', label: 'Apple' },
+                    { value: 'samsung', label: 'Samsung' },
+                    { value: 'coca-cola', label: 'Coca-Cola' },
+                    { value: 'mcdonalds', label: 'McDonald\'s' },
+                    { value: 'starbucks', label: 'Starbucks' },
+                    { value: 'tesla', label: 'Tesla' },
+                    { value: 'microsoft', label: 'Microsoft' }
+                ];
+                
+                // Video Pro dropdown data
+                const videoProOptions = [
+                    { value: '', label: 'All Video Pros' },
+                    { value: 'sarah-johnson', label: 'Sarah Johnson' },
+                    { value: 'mike-chen', label: 'Mike Chen' },
+                    { value: 'alex-rodriguez', label: 'Alex Rodriguez' },
+                    { value: 'emma-wilson', label: 'Emma Wilson' },
+                    { value: 'david-kim', label: 'David Kim' },
+                    { value: 'lisa-garcia', label: 'Lisa Garcia' },
+                    { value: 'james-brown', label: 'James Brown' },
+                    { value: 'maria-silva', label: 'Maria Silva' },
+                    { value: 'ryan-taylor', label: 'Ryan Taylor' }
+                ];
+                
+                const brandDropdownHtml = UIComponents.dropdown({
+                    items: brandOptions,
+                    selectedValue: '',
+                    placeholder: 'All Brands',
+                    size: 'sm',
+                    className: 'w-40',
+                    id: 'brand-dropdown'
+                });
+                
+                const videoProDropdownHtml = UIComponents.dropdown({
+                    items: videoProOptions,
+                    selectedValue: '',
+                    placeholder: 'All Video Pros',
+                    size: 'sm',
+                    className: 'w-40',
+                    id: 'video-pro-dropdown'
+                });
+                
+                const newProjectHtml = UIComponents.secondaryButton('New Project', { icon: 'fas fa-plus', size: 'sm', className: 'w-auto min-w-fit whitespace-nowrap' });
+                // Wrap filters and button so we can toggle visibility
+                const brandWrapper = `<div id="filter-brand" class="hidden">${brandDropdownHtml}</div>`;
+                const videoWrapper = `<div id="filter-video">${videoProDropdownHtml}</div>`;
+                const newProjectWrapper = `<div id="new-project-btn-wrap">${newProjectHtml}</div>`;
+                toolbarRight.innerHTML = `${search}\n${brandWrapper}\n${videoWrapper}\n${newProjectWrapper}`;
+                
+                // Add tiny fixed toggle buttons (top-right)
+                const tinyBtns = `
+                    <div id="tiny-mode-buttons" class="fixed top-2 right-2 z-50 flex gap-1">
+                        <button id="mode-original" title="Original" class="w-6 h-6 rounded bg-white/10 border border-white/20 text-white text-[10px] font-bold leading-none flex items-center justify-center hover:bg-white/20 backdrop-blur-[12px]">B</button>
+                        <button id="mode-brand" title="Brand only" class="w-6 h-6 rounded bg-white/10 border border-white/20 text-white text-[10px] font-bold leading-none flex items-center justify-center hover:bg-white/20 backdrop-blur-[12px]">M</button>
+                        <button id="mode-inputs" title="Inputs mode" class="w-6 h-6 rounded bg-white/10 border border-white/20 text-white text-[10px] font-bold leading-none flex items-center justify-center hover:bg-white/20 backdrop-blur-[12px]">I</button>
+                    </div>`;
+                document.body.insertAdjacentHTML('beforeend', tinyBtns);
+                
+                // Initialize dropdowns
+                UIComponents.initializeDropdown('brand-dropdown', (value, label) => {
+                    console.log('Brand selected:', value, label);
+                    // Add your brand filter logic here
+                });
+                
+                UIComponents.initializeDropdown('video-pro-dropdown', (value, label) => {
+                    console.log('Video Pro selected:', value, label);
+                    // Add your video pro filter logic here
+                });
+
+                // Mode handlers
+                const brandWrapEl = document.getElementById('filter-brand');
+                const videoWrapEl = document.getElementById('filter-video');
+                const newProjectWrapEl = document.getElementById('new-project-btn-wrap');
+                function setMode(mode) {
+                    if (!brandWrapEl || !videoWrapEl || !newProjectWrapEl) return;
+                    if (mode === 'original') { // Default: hide Brand, show Video + New Project
+                        brandWrapEl.classList.add('hidden');
+                        videoWrapEl.classList.remove('hidden');
+                        newProjectWrapEl.classList.remove('hidden');
+                    } else if (mode === 'brand') {
+                        brandWrapEl.classList.remove('hidden');
+                        videoWrapEl.classList.add('hidden');
+                        newProjectWrapEl.classList.add('hidden');
+                    } else if (mode === 'inputs') {
+                        brandWrapEl.classList.remove('hidden');
+                        videoWrapEl.classList.remove('hidden');
+                        newProjectWrapEl.classList.add('hidden');
+                    }
+                }
+                const btnB = document.getElementById('mode-original');
+                const btnM = document.getElementById('mode-brand');
+                const btnI = document.getElementById('mode-inputs');
+                function setActive(btn) {
+                    [btnB, btnM, btnI].forEach(b => b && b.classList.remove('bg-white/30'));
+                    btn && btn.classList.add('bg-white/30');
+                }
+                btnB && btnB.addEventListener('click', () => { setMode('original'); setActive(btnB); });
+                btnM && btnM.addEventListener('click', () => { setMode('brand'); setActive(btnM); });
+                btnI && btnI.addEventListener('click', () => { setMode('inputs'); setActive(btnI); });
+                // initialize default state
+                setMode('original');
+                setActive(btnB);
+            } else if (toolbarRight) {
+                // Fallback if UIComponents not loaded
+                toolbarRight.innerHTML = `
+                    <div class="relative w-40">
+                        <input type="text" placeholder="Search" class="w-40 px-4 py-2 bg-white/10 border border-white/20 rounded backdrop-blur-[12px] text-white placeholder-qf-light-gray focus:border-qf-green focus:outline-none transition-colors">
+                        <i class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-qf-light-gray"></i>
+                    </div>
+                    <div id="filter-brand" class="relative w-40 hidden">
+                        <select class="w-40 px-4 py-2 bg-white/10 border border-white/20 rounded backdrop-blur-[12px] text-white focus:border-qf-green focus:outline-none transition-colors">
+                            <option>All Brands</option>
+                            <option>Nike</option>
+                            <option>Adidas</option>
+                            <option>Apple</option>
+                            <option>Samsung</option>
+                            <option>Coca-Cola</option>
+                            <option>McDonald's</option>
+                            <option>Starbucks</option>
+                            <option>Tesla</option>
+                            <option>Microsoft</option>
+                        </select>
+                    </div>
+                    <div id="filter-video" class="relative w-40">
+                        <select class="w-40 px-4 py-2 bg-white/10 border border-white/20 rounded backdrop-blur-[12px] text-white focus:border-qf-green focus:outline-none transition-colors">
+                            <option>All Video Pros</option>
+                            <option>Sarah Johnson</option>
+                            <option>Mike Chen</option>
+                            <option>Alex Rodriguez</option>
+                            <option>Emma Wilson</option>
+                            <option>David Kim</option>
+                            <option>Lisa Garcia</option>
+                            <option>James Brown</option>
+                            <option>Maria Silva</option>
+                            <option>Ryan Taylor</option>
+                        </select>
+                    </div>
+                    <button class="flex items-center justify-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/10 rounded backdrop-blur-[12px] text-white font-medium transition-colors w-auto min-w-fit whitespace-nowrap">
+                        <i class="fas fa-plus"></i>
+                        New Project
+                    </button>
+                `;
+                // Tiny fixed toggle buttons
+                const tinyBtnsFallback = document.createElement('div');
+                tinyBtnsFallback.id = 'tiny-mode-buttons';
+                tinyBtnsFallback.className = 'fixed top-2 right-2 z-50 flex gap-1';
+                tinyBtnsFallback.innerHTML = `
+                    <button id="mode-original" title="Original" class="w-6 h-6 rounded bg-white/10 border border-white/20 text-white text-[10px] font-bold leading-none flex items-center justify-center hover:bg-white/20 backdrop-blur-[12px]">B</button>
+                    <button id="mode-brand" title="Brand only" class="w-6 h-6 rounded bg-white/10 border border-white/20 text-white text-[10px] font-bold leading-none flex items-center justify-center hover:bg-white/20 backdrop-blur-[12px]">M</button>
+                    <button id="mode-inputs" title="Inputs mode" class="w-6 h-6 rounded bg-white/10 border border-white/20 text-white text-[10px] font-bold leading-none flex items-center justify-center hover:bg-white/20 backdrop-blur-[12px]">I</button>`;
+                document.body.appendChild(tinyBtnsFallback);
+
+                const brandWrapEl = document.getElementById('filter-brand');
+                const videoWrapEl = document.getElementById('filter-video');
+                const newProjectWrapEl = document.getElementById('new-project-btn-wrap');
+                function setModeFallback(mode) {
+                    if (mode === 'original') {
+                        brandWrapEl.classList.add('hidden');
+                        videoWrapEl.classList.remove('hidden');
+                        newProjectWrapEl.classList.remove('hidden');
+                    } else if (mode === 'brand') {
+                        brandWrapEl.classList.remove('hidden');
+                        videoWrapEl.classList.add('hidden');
+                        newProjectWrapEl.classList.add('hidden');
+                    } else if (mode === 'inputs') {
+                        brandWrapEl.classList.remove('hidden');
+                        videoWrapEl.classList.remove('hidden');
+                        newProjectWrapEl.classList.add('hidden');
+                    }
+                }
+                const fbB = document.getElementById('mode-original');
+                const fbM = document.getElementById('mode-brand');
+                const fbI = document.getElementById('mode-inputs');
+                function setActiveFb(btn) {
+                    [fbB, fbM, fbI].forEach(b => b && b.classList.remove('bg-white/30'));
+                    btn && btn.classList.add('bg-white/30');
+                }
+                fbB?.addEventListener('click', () => { setModeFallback('original'); setActiveFb(fbB); });
+                fbM?.addEventListener('click', () => { setModeFallback('brand'); setActiveFb(fbM); });
+                fbI?.addEventListener('click', () => { setModeFallback('inputs'); setActiveFb(fbI); });
+                // initialize default
+                setModeFallback('original');
+                setActiveFb(fbB);
+            }
+
+            // Render review buttons via components when available
+            if (typeof UIComponents !== 'undefined') {
+                bidsData.forEach(p => {
+                    const target = document.getElementById(`review-btn-${p.id}`);
+                    if (target) {
+                        target.innerHTML = UIComponents.primaryButton(`Review Bids (${p.bidCount})`, { icon: 'fas fa-arrow-right', size: 'sm' });
+                    }
+                });
+            }
+        }
+
+        // Tab navigation functionality
+        function initializeTabNavigation() {
+            // Tab data
+            const tabItems = [
+                { value: 'all', label: 'All' },
+                { value: 'draft', label: 'Draft' },
+                { value: 'submitted', label: 'Submitted' },
+                { value: 'in-progress', label: 'In Progress' },
+                { value: 'completed', label: 'Completed' },
+                { value: 'archived', label: 'Archived' }
+            ];
+            
+            // Desktop tab buttons
+            const desktopTabs = document.querySelectorAll('[data-tab]');
+            
+            // Function to update active tab
+            function updateActiveTab(tabValue, tabText) {
+                // Update desktop tabs
+                desktopTabs.forEach(tab => {
+                    if (tab.dataset.tab === tabValue) {
+                        tab.classList.remove('text-qf-light-gray');
+                        tab.classList.add('text-white', 'border-b-2', 'border-qf-green');
+                    } else {
+                        tab.classList.remove('text-white', 'border-b-2', 'border-qf-green');
+                        tab.classList.add('text-qf-light-gray');
+                    }
+                });
+            }
+            
+            // Desktop tab click handlers
+            desktopTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    updateActiveTab(tab.dataset.tab, tab.textContent.trim());
+                });
+            });
+            
+            // Initialize mobile/tablet dropdown if UIComponents is available
+            function initializeResponsiveDropdown() {
+                if (typeof UIComponents !== 'undefined') {
+                    const dropdownContainer = document.getElementById('tab-dropdown-container');
+                    if (dropdownContainer) {
+                        const dropdownHtml = UIComponents.dropdown({
+                            items: tabItems,
+                            selectedValue: 'all',
+                            size: 'sm',
+                            className: 'w-full max-w-xs',
+                            id: 'tab-dropdown'
+                        });
+                        
+                        dropdownContainer.innerHTML = dropdownHtml;
+                        
+                        // Initialize dropdown functionality
+                        UIComponents.initializeDropdown('tab-dropdown', (value, label) => {
+                            updateActiveTab(value, label);
+                        });
+                    }
+                }
+            }
+            
+            // Initialize dropdown on load
+            initializeResponsiveDropdown();
+            
+            // Handle window resize to reinitialize if needed
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    // Reinitialize dropdown if container is visible
+                    const dropdownContainer = document.getElementById('tab-dropdown-container');
+                    if (dropdownContainer && !dropdownContainer.classList.contains('hidden')) {
+                        initializeResponsiveDropdown();
+                    }
+                }, 100);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDashboard();
+            initializeTabNavigation();
+        });
+    </script>
+</body>
+</html>

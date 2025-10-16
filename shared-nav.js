@@ -18,17 +18,18 @@ export class SharedNavigation {
             { id: 'billing', icon: 'credit-card', title: 'Billing', href: '#' },
             { id: 'help', icon: 'question-circle', title: 'Help Center', href: '#' },
             { id: 'onboarding', icon: 'rocket', title: 'Onboarding', href: '#' },
-            { id: 'package-selection', icon: 'box', title: 'Package Selection', href: 'package-selection.html' },
-            { id: 'service', icon: 'flask', title: 'Service Prototype', href: 'service.html' }
+            { id: 'package-selection', icon: 'box', title: 'Package', href: 'package-selection.html' },
+            { id: 'service', icon: 'flask', title: 'Service', href: 'service.html' }
         ];
     }
 
     render() {
         return `
-            <nav class="fixed top-0 left-0 h-full w-18 glass-container z-50" style="width: 72px;">
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex fixed top-0 left-0 h-full w-18 glass-container z-50" style="width: 72px;">
                 <div class="flex flex-col items-center py-6 h-full">
                     <!-- QF Logo -->
-                    <a href="index.html" class="text-2xl font-bold text-white mb-8 hover:text-qf-green transition-colors">
+                    <a href="index.html" class="text-3xl font-bold text-white mb-8 hover:text-qf-green transition-colors">
                         QF
                     </a>
                     
@@ -44,6 +45,40 @@ export class SharedNavigation {
                     </div>
                 </div>
             </nav>
+
+            <!-- Mobile Bottom Navigation -->
+            <nav class="md:hidden fixed bottom-0 left-0 right-0 glass-container z-50 mobile-nav">
+                <div class="flex items-center justify-around py-3 px-4">
+                    ${this.navItems.slice(0, 5).map(item => `
+                        <a href="${item.href}" 
+                           class="mobile-nav-item flex flex-col items-center p-2 rounded-lg transition-colors ${this.getNavItemClasses(item)}" 
+                           title="${item.title}">
+                            <i class="fas fa-${item.icon} text-lg mb-1"></i>
+                            <span class="mobile-nav-text text-xs">${item.title.split(' ')[0]}</span>
+                        </a>
+                    `).join('')}
+                </div>
+            </nav>
+        `;
+    }
+
+    // Render page header component
+    renderPageHeader(title, subtitle = '', showBackButton = true) {
+        return `
+            <div class="mb-8">
+                <div class="flex items-center gap-4 mb-4">
+                    ${showBackButton ? `
+                        <button class="text-white text-lg cursor-pointer transition-colors duration-300 hover:text-qf-green" aria-label="Go back">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <div class="w-px h-6 bg-white"></div>
+                    ` : ''}
+                    <div>
+                        <h1 class="text-2xl font-bold">${title}</h1>
+                        ${subtitle ? `<p class="text-qf-light-gray text-base">${subtitle}</p>` : ''}
+                    </div>
+                </div>
+            </div>
         `;
     }
 
