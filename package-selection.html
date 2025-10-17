@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="shared-styles.css">
     <script src="components/ui-components.js"></script>
+    <script src="shared-nav.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -26,52 +27,7 @@
 </head>
 <body class="bg-qf-darker text-white">
     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 h-full z-50 hidden md:block" style="width: 72px; border-right: 1px solid rgba(255, 255, 255, 0.20); background: radial-gradient(162.34% 115.1% at 70.34% 91.1%, rgba(26, 201, 170, 0.06) 0%, rgba(24, 31, 37, 0.00) 62.23%), rgba(87, 90, 92, 0.20); backdrop-filter: blur(20px);">
-        <div class="flex flex-col items-center py-6 h-full">
-            <!-- QF Logo -->
-            <a href="index.html" class="text-2xl font-bold text-white mb-8 hover:text-qf-green transition-colors">
-                QF
-            </a>
-            
-            <!-- Navigation Items -->
-            <div class="flex flex-col space-y-4">
-                <a href="index.html" class="p-3 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Table of Contents">
-                    <i class="fas fa-th-large"></i>
-                </a>
-                <a href="dashboard.html" class="p-3 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Dashboard">
-                    <i class="fas fa-chart-line"></i>
-                </a>
-                <a href="package-selection.html" class="p-3 rounded-lg bg-qf-green/20 text-qf-green" title="Package Selection">
-                    <i class="fas fa-box"></i>
-                </a>
-                <a href="service.html" class="p-3 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Service Prototype">
-                    <i class="fas fa-flask"></i>
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Mobile Bottom Navigation -->
-    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50" style="border-top: 1px solid rgba(255, 255, 255, 0.20); background: radial-gradient(162.34% 115.1% at 70.34% 91.1%, rgba(26, 201, 170, 0.06) 0%, rgba(24, 31, 37, 0.00) 62.23%), rgba(87, 90, 92, 0.20); backdrop-filter: blur(20px);">
-        <div class="flex items-center justify-around py-3 px-4">
-            <a href="index.html" class="flex flex-col items-center p-2 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Table of Contents">
-                <i class="fas fa-th-large text-lg mb-1"></i>
-                <span class="text-xs">Table</span>
-            </a>
-            <a href="dashboard.html" class="flex flex-col items-center p-2 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Dashboard">
-                <i class="fas fa-chart-line text-lg mb-1"></i>
-                <span class="text-xs">Dashboard</span>
-            </a>
-            <a href="package-selection.html" class="flex flex-col items-center p-2 rounded-lg bg-qf-green/20 text-qf-green" title="Package Selection">
-                <i class="fas fa-box text-lg mb-1"></i>
-                <span class="text-xs">Package</span>
-            </a>
-            <a href="service.html" class="flex flex-col items-center p-2 rounded-lg text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors" title="Service Prototype">
-                <i class="fas fa-flask text-lg mb-1"></i>
-                <span class="text-xs">Service</span>
-            </a>
-        </div>
-    </nav>
+    <div id="shared-navigation"></div>
 
     <!-- Main Content -->
     <div class="nav-width min-h-screen p-8">
@@ -197,6 +153,11 @@
 
             // Generate package cards when page loads
             document.addEventListener('DOMContentLoaded', function() {
+                // Initialize shared navigation
+                if (typeof SharedNavigation !== 'undefined') {
+                    document.getElementById('shared-navigation').innerHTML = SharedNavigation.render('package-selection');
+                }
+                
                 const packageGrid = document.getElementById('package-grid');
                 if (packageGrid) {
                     packageGrid.innerHTML = packageData.map(createPackageCard).join('');

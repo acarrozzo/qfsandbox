@@ -1,121 +1,102 @@
 /**
- * QuickFrame Shared Navigation Component
+ * Shared Navigation Component
  * DRY navigation system for all pages
  */
 
-export class SharedNavigation {
-    constructor(currentPage = 'index') {
-        this.currentPage = currentPage;
-        this.navItems = [
-            { id: 'index', icon: 'th-large', title: 'Table of Contents', href: 'index.html' },
-            { id: 'dashboard', icon: 'chart-line', title: 'Dashboard', href: 'dashboard.html' },
-            { id: 'profile', icon: 'user', title: 'User Profile', href: 'profile.html' },
-            { id: 'analytics', icon: 'chart-bar', title: 'Analytics', href: '#' },
-            { id: 'settings', icon: 'cog', title: 'Settings', href: '#' },
-            { id: 'notifications', icon: 'bell', title: 'Notifications', href: '#' },
-            { id: 'projects', icon: 'folder', title: 'Projects', href: '#' },
-            { id: 'team', icon: 'users', title: 'Team', href: '#' },
-            { id: 'billing', icon: 'credit-card', title: 'Billing', href: '#' },
-            { id: 'help', icon: 'question-circle', title: 'Help Center', href: '#' },
-            { id: 'onboarding', icon: 'rocket', title: 'Onboarding', href: '#' },
-            { id: 'package-selection', icon: 'box', title: 'Package', href: 'package-selection.html' },
-            { id: 'service', icon: 'flask', title: 'Service', href: 'service.html' }
+class SharedNavigation {
+    /**
+     * Render desktop sidebar navigation
+     * @param {string} activePage - Currently active page identifier
+     */
+    static renderDesktopNav(activePage = '') {
+        const navItems = [
+            { id: 'index', href: 'index.html', icon: 'fas fa-th-large', title: 'Table of Contents' },
+            { id: 'dashboard', href: 'dashboard.html', icon: 'fas fa-chart-line', title: 'Dashboard' },
+            { id: 'package-selection', href: 'package-selection.html', icon: 'fas fa-box', title: 'Package Selection' },
+            { id: 'service', href: 'service.html', icon: 'fas fa-flask', title: 'Service Prototype' },
+            { id: 'project-draft', href: 'project-draft.html', icon: 'fas fa-file-alt', title: 'Project Draft' }
         ];
-    }
 
-    render() {
+        const navItemsHtml = navItems.map(item => {
+            const isActive = item.id === activePage;
+            const activeClasses = isActive ? 'bg-qf-green/20 text-qf-green' : 'text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors';
+            
+            return `
+                <div class="relative group">
+                    <a href="${item.href}" class="p-3 rounded-lg ${activeClasses} block" title="${item.title}">
+                        <i class="${item.icon}"></i>
+                    </a>
+                    <!-- Tooltip -->
+                    <div class="absolute left-full ml-2 top-1/2 transform -translate-y-1/2 bg-qf-dark text-white text-sm px-3 py-2 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-0 pointer-events-none whitespace-nowrap z-50">
+                        ${item.title}
+                        <!-- Tooltip arrow -->
+                        <div class="absolute right-full top-1/2 transform -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-r-4 border-transparent border-r-qf-dark"></div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
         return `
-            <!-- Desktop Navigation -->
-            <nav class="hidden md:flex fixed top-0 left-0 h-full w-18 glass-container z-50" style="width: 72px;">
+            <nav class="fixed top-0 left-0 h-full z-50 hidden md:block" style="width: 72px; border-right: 1px solid rgba(255, 255, 255, 0.20); background: radial-gradient(162.34% 115.1% at 70.34% 91.1%, rgba(26, 201, 170, 0.06) 0%, rgba(24, 31, 37, 0.00) 62.23%), rgba(87, 90, 92, 0.20); backdrop-filter: blur(20px);">
                 <div class="flex flex-col items-center py-6 h-full">
                     <!-- QF Logo -->
-                    <a href="index.html" class="text-3xl font-bold text-white mb-8 hover:text-qf-green transition-colors">
+                    <a href="index.html" class="text-2xl font-bold text-white mb-8 hover:text-qf-green transition-colors">
                         QF
                     </a>
                     
                     <!-- Navigation Items -->
                     <div class="flex flex-col space-y-4">
-                        ${this.navItems.map(item => `
-                            <a href="${item.href}" 
-                               class="p-3 rounded-lg transition-colors ${this.getNavItemClasses(item)}" 
-                               title="${item.title}">
-                                <i class="fas fa-${item.icon}"></i>
-                            </a>
-                        `).join('')}
+                        ${navItemsHtml}
                     </div>
-                </div>
-            </nav>
-
-            <!-- Mobile Bottom Navigation -->
-            <nav class="md:hidden fixed bottom-0 left-0 right-0 glass-container z-50 mobile-nav">
-                <div class="flex items-center justify-around py-3 px-4">
-                    ${this.navItems.slice(0, 5).map(item => `
-                        <a href="${item.href}" 
-                           class="mobile-nav-item flex flex-col items-center p-2 rounded-lg transition-colors ${this.getNavItemClasses(item)}" 
-                           title="${item.title}">
-                            <i class="fas fa-${item.icon} text-lg mb-1"></i>
-                            <span class="mobile-nav-text text-xs">${item.title.split(' ')[0]}</span>
-                        </a>
-                    `).join('')}
                 </div>
             </nav>
         `;
     }
 
-    // Render page header component
-    renderPageHeader(title, subtitle = '', showBackButton = true) {
+    /**
+     * Render mobile bottom navigation
+     * @param {string} activePage - Currently active page identifier
+     */
+    static renderMobileNav(activePage = '') {
+        const navItems = [
+            { id: 'index', href: 'index.html', icon: 'fas fa-th-large', title: 'Table of Contents', label: 'Table' },
+            { id: 'dashboard', href: 'dashboard.html', icon: 'fas fa-chart-line', title: 'Dashboard', label: 'Dashboard' },
+            { id: 'package-selection', href: 'package-selection.html', icon: 'fas fa-box', title: 'Package Selection', label: 'Package' },
+            { id: 'service', href: 'service.html', icon: 'fas fa-flask', title: 'Service Prototype', label: 'Service' },
+            { id: 'project-draft', href: 'project-draft.html', icon: 'fas fa-file-alt', title: 'Project Draft', label: 'Draft' }
+        ];
+
+        const navItemsHtml = navItems.map(item => {
+            const isActive = item.id === activePage;
+            const activeClasses = isActive ? 'bg-qf-green/20 text-qf-green' : 'text-qf-light-gray hover:text-white hover:bg-white/10 transition-colors';
+            
+            return `
+                <a href="${item.href}" class="flex flex-col items-center p-2 rounded-lg ${activeClasses}" title="${item.title}">
+                    <i class="${item.icon} text-lg mb-1"></i>
+                    <span class="text-xs">${item.label}</span>
+                </a>
+            `;
+        }).join('');
+
         return `
-            <div class="mb-8">
-                <div class="flex items-center gap-4 mb-4">
-                    ${showBackButton ? `
-                        <button class="text-white text-lg cursor-pointer transition-colors duration-300 hover:text-qf-green" aria-label="Go back">
-                            <i class="fas fa-arrow-left"></i>
-                        </button>
-                        <div class="w-px h-6 bg-white"></div>
-                    ` : ''}
-                    <div>
-                        <h1 class="text-2xl font-bold">${title}</h1>
-                        ${subtitle ? `<p class="text-qf-light-gray text-base">${subtitle}</p>` : ''}
-                    </div>
+            <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50" style="border-top: 1px solid rgba(255, 255, 255, 0.20); background: radial-gradient(162.34% 115.1% at 70.34% 91.1%, rgba(26, 201, 170, 0.06) 0%, rgba(24, 31, 37, 0.00) 62.23%), rgba(87, 90, 92, 0.20); backdrop-filter: blur(20px);">
+                <div class="flex items-center justify-around py-3 px-4">
+                    ${navItemsHtml}
                 </div>
-            </div>
+            </nav>
         `;
     }
 
-    getNavItemClasses(item) {
-        if (item.id === this.currentPage) {
-            return 'bg-qf-green/20 text-qf-green';
-        }
-        
-        // Special handling for non-existent pages
-        if (item.href === '#') {
-            return 'text-qf-light-gray opacity-50 cursor-not-allowed';
-        }
-        
-        return 'text-qf-light-gray hover:text-white hover:bg-white/10';
-    }
-
-    // Method to update navigation for a specific page
-    static updateNavigation(currentPage) {
-        const nav = new SharedNavigation(currentPage);
-        const navElement = document.querySelector('nav');
-        if (navElement) {
-            navElement.outerHTML = nav.render();
-        }
+    /**
+     * Render both desktop and mobile navigation
+     * @param {string} activePage - Currently active page identifier
+     */
+    static render(activePage = '') {
+        return this.renderDesktopNav(activePage) + this.renderMobileNav(activePage);
     }
 }
 
-// Auto-initialize navigation based on current page
-document.addEventListener('DOMContentLoaded', () => {
-    // Determine current page from URL
-    const currentPath = window.location.pathname;
-    let currentPage = 'index';
-    
-    if (currentPath.includes('dashboard')) currentPage = 'dashboard';
-    else if (currentPath.includes('profile')) currentPage = 'profile';
-    else if (currentPath.includes('package-selection')) currentPage = 'package-selection';
-    else if (currentPath.includes('service')) currentPage = 'service';
-    
-    // Update navigation
-    SharedNavigation.updateNavigation(currentPage);
-});
+// Expose globally for non-module inline scripts
+if (typeof window !== 'undefined') {
+    window.SharedNavigation = SharedNavigation;
+}

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Draft - QuickFrame</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="shared-styles.css">
+    <script src="components/ui-components.js"></script>
+    <script src="shared-nav.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'qf-green': '#1AC9AA',
+                        'qf-dark': '#181F25',
+                        'qf-darker': '#0F1419',
+                        'qf-gray': '#575A5C',
+                        'qf-light-gray': '#8B8F91',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-qf-darker text-white">
+    <!-- Navigation -->
+    <div id="shared-navigation"></div>
+
+    <!-- Main Content -->
+    <div class="nav-width min-h-screen">
+        <!-- Header -->
+        <div class="p-8 pb-4">
+            <div class="flex items-center gap-4 mb-4">
+                <button class="text-white text-lg cursor-pointer transition-colors duration-300 hover:text-qf-green" aria-label="Go back">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="w-px h-6 bg-white"></div>
+                <div class="flex items-center gap-3">
+                    <span class="px-3 py-1 bg-qf-gray/30 text-qf-light-gray text-sm rounded">Draft</span>
+                    <i class="fab fa-tiktok text-white"></i>
+                    <span class="text-white">Product Spotlight CTV Commercial</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 mb-6">
+                <h1 class="text-3xl font-bold">Onewheel - Rally XL</h1>
+                <button class="text-qf-light-gray hover:text-white transition-colors">
+                    <i class="fas fa-pencil-alt"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="px-8 pb-24">
+            <div class="flex flex-col xl:flex-row gap-8">
+                <!-- Left Column - Project Details and Services -->
+                <div class="flex-1 space-y-8">
+                    <!-- Project Details -->
+                    <div class="glass-container p-6 rounded-lg">
+                        <h2 class="text-xl font-bold mb-6">Project Details</h2>
+                        
+                        <!-- Project Thumbnail and Form -->
+                        <div class="flex flex-col md:flex-row xl:flex-row gap-6 mb-6">
+                            <!-- Thumbnail Upload -->
+                            <div class="w-64 h-64 bg-white/10 border border-white/20 rounded-lg flex items-center justify-center cursor-pointer hover:bg-white/20 transition-colors flex-shrink-0">
+                                <div class="text-center">
+                                    <i class="fas fa-play text-4xl text-qf-light-gray mb-2"></i>
+                                    <p class="text-sm text-qf-light-gray">upload project thumbnail</p>
+                                    <i class="fas fa-upload text-qf-light-gray mt-2"></i>
+                                </div>
+                            </div>
+                            
+                            <!-- Form Fields -->
+                            <div class="flex-1 grid grid-cols-2 gap-4">
+                                <!-- Row 1 -->
+                                <div>
+                                    <label class="block text-xs font-medium mb-1">Project Name</label>
+                                    <input type="text" value="Onewheel" class="w-full px-3 py-2 text-sm bg-white/10 border border-white/20 rounded backdrop-blur-[12px] text-white placeholder-qf-light-gray focus:border-qf-green focus:outline-none transition-colors">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium mb-1">File Manager</label>
+                                    <button class="w-full px-3 py-2 text-sm bg-white/10 border border-white/20 rounded backdrop-blur-[12px] text-white hover:bg-white/20 transition-colors text-left">
+                                        File Manager
+                                    </button>
+                                </div>
+                                
+                                <!-- Row 2 -->
+                                <div>
+                                    <label class="block text-xs font-medium mb-1">Bidding End Date</label>
+                                    <div class="relative">
+                                        <input type="text" value="3 JUNE 2025" class="w-full px-3 py-2 text-sm bg-white/10 border border-white/20 rounded backdrop-blur-[12px] text-white placeholder-qf-light-gray focus:border-qf-green focus:outline-none transition-colors">
+                                        <i class="fas fa-calendar absolute right-2 top-1/2 transform -translate-y-1/2 text-qf-light-gray text-xs"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium mb-1">Due Date</label>
+                                    <div class="relative">
+                                        <input type="text" value="21 AUG 2025" class="w-full px-3 py-2 text-sm bg-white/10 border border-white/20 rounded backdrop-blur-[12px] text-white placeholder-qf-light-gray focus:border-qf-green focus:outline-none transition-colors">
+                                        <i class="fas fa-calendar absolute right-2 top-1/2 transform -translate-y-1/2 text-qf-light-gray text-xs"></i>
+                                    </div>
+                                </div>
+                                
+                                <!-- Row 3 -->
+                                <div>
+                                    <label class="block text-xs font-medium mb-1">Language</label>
+                                    <select class="w-full px-3 py-2 text-sm bg-white/10 border border-white/20 rounded backdrop-blur-[12px] text-white focus:border-qf-green focus:outline-none transition-colors">
+                                        <option>English</option>
+                                        <option>Spanish</option>
+                                        <option>French</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium mb-1">Location</label>
+                                    <select class="w-full px-3 py-2 text-sm bg-white/10 border border-white/20 rounded backdrop-blur-[12px] text-white focus:border-qf-green focus:outline-none transition-colors">
+                                        <option>No Specific Location</option>
+                                        <option>Los Angeles</option>
+                                        <option>New York</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Project Description -->
+                        <div>
+                            <h3 class="text-lg font-semibold mb-3">Project Description</h3>
+                            <textarea rows="6" class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded backdrop-blur-[12px] text-white placeholder-qf-light-gray focus:border-qf-green focus:outline-none transition-colors resize-none">Set against a backdrop of breathtaking landscapes spanning mountains, deserts, forests, and cityscapes, the commercial captures the essence of exploration and adventure with the Onewheel skateboard. From winding coastal roads to remote trails and bustling city streets, riders effortlessly glide through diverse terrains, showcasing the Onewheel's versatility and agility. With epic drone shots and exhilarating close-ups, the commercial highlights the board's smooth ride and intuitive controls, while riders demonstrate advanced techniques and tricks that showcase the board's capabilities. The commercial emphasizes the freedom and joy of riding, connecting with viewers who share a passion for adventure and outdoor exploration.</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Services Section -->
+                    <div class="glass-container p-6 rounded-lg">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h2 class="text-xl font-bold">Services</h2>
+                                <p class="text-qf-light-gray text-sm">The building blocks of your project</p>
+                            </div>
+                            <button class="bg-qf-green text-black font-medium px-4 py-2 rounded flex items-center gap-2 hover:bg-qf-green/80 transition-colors">
+                                <i class="fas fa-plus"></i>
+                                Add Services
+                            </button>
+                        </div>
+
+                        <!-- INCLUDED Services -->
+                        <div class="mb-6">
+                            <button class="accordion-header w-full flex items-center justify-between p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors" onclick="toggleAccordion('included-services')">
+                                <span class="font-semibold">INCLUDED (8)</span>
+                                <i class="fas fa-chevron-down accordion-arrow transition-transform duration-200 rotate-180"></i>
+                            </button>
+                            <div id="included-services" class="accordion-content mt-4 space-y-3">
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded">
+                                    <span>Concepting</span>
+                                    <div class="flex items-center gap-2">
+                                        <button class="text-xs text-qf-light-gray hover:text-white">Add note</button>
+                                        <i class="fas fa-ellipsis-v text-qf-light-gray"></i>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded">
+                                    <span>Scripting</span>
+                                    <div class="flex items-center gap-2">
+                                        <button class="text-xs text-qf-light-gray hover:text-white">Add note</button>
+                                        <i class="fas fa-ellipsis-v text-qf-light-gray"></i>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded">
+                                    <span>Location (Home or Studio)</span>
+                                    <div class="flex items-center gap-2">
+                                        <button class="text-xs text-qf-light-gray hover:text-white">Add note</button>
+                                        <i class="fas fa-ellipsis-v text-qf-light-gray"></i>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded">
+                                    <span>Propping (Basic)</span>
+                                    <div class="flex items-center gap-2">
+                                        <button class="text-xs text-qf-light-gray hover:text-white">Add note</button>
+                                        <i class="fas fa-ellipsis-v text-qf-light-gray"></i>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded">
+                                    <span>Unique Talent (Up to 3)</span>
+                                    <div class="flex items-center gap-2">
+                                        <button class="text-xs text-qf-light-gray hover:text-white">Add note</button>
+                                        <i class="fas fa-ellipsis-v text-qf-light-gray"></i>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded">
+                                    <span>Voice Over Artist</span>
+                                    <div class="flex items-center gap-2">
+                                        <button class="text-xs text-qf-light-gray hover:text-white">Add note</button>
+                                        <i class="fas fa-ellipsis-v text-qf-light-gray"></i>
+                                    </div>
+                                </div>
+                                <div class="p-3 bg-white/5 rounded">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span>One Concept (:15-:30)</span>
+                                        <div class="flex items-center gap-2">
+                                            <button class="text-xs text-qf-light-gray hover:text-white">Add note</button>
+                                            <i class="fas fa-ellipsis-v text-qf-light-gray"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4 space-y-2">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm">▷ Concept: 15:30</span>
+                                            <div class="flex items-center gap-2">
+                                                <button class="text-xs text-qf-light-gray hover:text-white">Add note</button>
+                                                <i class="fas fa-ellipsis-v text-qf-light-gray"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm">▷ Additional Aspect Ratio</span>
+                                            <div class="flex items-center gap-2">
+                                                <button class="text-xs text-qf-light-gray hover:text-white">Add note</button>
+                                                <i class="fas fa-ellipsis-v text-qf-light-gray"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ADDED Services -->
+                        <div>
+                            <button class="accordion-header w-full flex items-center justify-between p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors" onclick="toggleAccordion('added-services')">
+                                <span class="font-semibold">ADDED (13)</span>
+                                <i class="fas fa-chevron-down accordion-arrow transition-transform duration-200 rotate-180"></i>
+                            </button>
+                            <div id="added-services" class="accordion-content mt-4 space-y-3">
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded">
+                                    <span>Motion GFX</span>
+                                    <div class="flex items-center gap-2">
+                                        <button class="text-xs bg-qf-green/20 text-qf-green px-2 py-1 rounded">Custom service</button>
+                                        <button class="text-xs text-qf-light-gray hover:text-white">Add note</button>
+                                        <i class="fas fa-ellipsis-v text-qf-light-gray"></i>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded">
+                                    <span>Extra Shoot Day</span>
+                                    <div class="flex items-center gap-2">
+                                        <button class="text-xs bg-qf-green/20 text-qf-green px-2 py-1 rounded">Custom service</button>
+                                        <button class="text-xs text-qf-light-gray hover:text-white">Add note</button>
+                                        <i class="fas fa-ellipsis-v text-qf-light-gray"></i>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded">
+                                    <span>Drone Footage</span>
+                                    <div class="flex items-center gap-2">
+                                        <button class="text-xs text-qf-light-gray hover:text-white">Add note</button>
+                                        <i class="fas fa-ellipsis-v text-qf-light-gray"></i>
+                                    </div>
+                                </div>
+                                <div class="p-3 bg-white/5 rounded">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span>On Set Photography</span>
+                                        <div class="flex items-center gap-2">
+                                            <button class="text-xs text-qf-light-gray hover:text-white">Add note</button>
+                                            <i class="fas fa-ellipsis-v text-qf-light-gray"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm">On Set Photographs</span>
+                                            <div class="flex items-center gap-2">
+                                                <button class="text-xs text-qf-light-gray hover:text-white">Add note</button>
+                                                <i class="fas fa-ellipsis-v text-qf-light-gray"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-3 bg-white/5 rounded">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span>RAW Files</span>
+                                        <div class="flex items-center gap-2">
+                                            <button class="text-xs text-qf-light-gray hover:text-white">Add note</button>
+                                            <i class="fas fa-ellipsis-v text-qf-light-gray"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm">RAW Files</span>
+                                            <div class="flex items-center gap-2">
+                                                <button class="text-xs text-qf-light-gray hover:text-white">Add note</button>
+                                                <i class="fas fa-ellipsis-v text-qf-light-gray"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-3 bg-white/5 rounded">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span>15 Second CutDown</span>
+                                        <div class="flex items-center gap-2">
+                                            <button class="text-xs text-qf-light-gray hover:text-white">Add note</button>
+                                            <i class="fas fa-ellipsis-v text-qf-light-gray"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-sm">▷ 15 Second CutDown</span>
+                                            <div class="flex items-center gap-2">
+                                                <button class="text-xs text-qf-light-gray hover:text-white">Add note</button>
+                                                <i class="fas fa-ellipsis-v text-qf-light-gray"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded">
+                                    <span>Mixed Media Hybrid</span>
+                                    <div class="flex items-center gap-2">
+                                        <button class="text-xs bg-qf-green/20 text-qf-green px-2 py-1 rounded">Custom service</button>
+                                        <button class="text-xs text-qf-light-gray hover:text-white">Add note</button>
+                                        <i class="fas fa-ellipsis-v text-qf-light-gray"></i>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded">
+                                    <span>Broadcast Rights</span>
+                                    <div class="flex items-center gap-2">
+                                        <button class="text-xs bg-qf-green/20 text-qf-green px-2 py-1 rounded">Custom service</button>
+                                        <button class="text-xs text-qf-light-gray hover:text-white">Add note</button>
+                                        <i class="fas fa-ellipsis-v text-qf-light-gray"></i>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white/5 rounded">
+                                    <span>Pre-Light Day</span>
+                                    <div class="flex items-center gap-2">
+                                        <button class="text-xs bg-qf-green/20 text-qf-green px-2 py-1 rounded">Custom service</button>
+                                        <button class="text-xs text-qf-light-gray hover:text-white">Add note</button>
+                                        <i class="fas fa-ellipsis-v text-qf-light-gray"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Deliverables -->
+                <div class="space-y-8 w-full xl:w-[480px] xl:flex-shrink-0">
+                    <div class="glass-container p-6 rounded-lg">
+                        <div class="mb-6">
+                            <h2 class="text-xl font-bold">Deliverables</h2>
+                            <p class="text-qf-light-gray text-sm">These are your final videos and files</p>
+                        </div>
+
+                        <!-- VIDEOS Section -->
+                        <div class="mb-6">
+                            <button class="accordion-header w-full flex items-center justify-between p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors" onclick="toggleAccordion('videos')">
+                                <span class="font-semibold">VIDEOS (4)</span>
+                                <i class="fas fa-chevron-down accordion-arrow transition-transform duration-200 rotate-180"></i>
+                            </button>
+                            <div id="videos" class="accordion-content mt-4 space-y-3">
+                                <div class="flex items-center gap-3 p-3 bg-white/5 rounded">
+                                    <i class="fas fa-play text-qf-green"></i>
+                                    <span>Concept (15-30 SEC)</span>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 bg-white/5 rounded">
+                                    <i class="fas fa-play text-qf-green"></i>
+                                    <span>Additional Aspect Ratio (1x2)</span>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 bg-white/5 rounded">
+                                    <i class="fas fa-play text-qf-green"></i>
+                                    <span>15 Second CutDown (15 SEC)</span>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 bg-white/5 rounded">
+                                    <i class="fas fa-play text-qf-green"></i>
+                                    <span>1 Additional Voice-over Variation (15-30 SEC)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FILES Section -->
+                        <div>
+                            <button class="accordion-header w-full flex items-center justify-between p-4 bg-white/5 rounded-lg hover:bg-white/10 transition-colors" onclick="toggleAccordion('files')">
+                                <span class="font-semibold">FILES (3)</span>
+                                <i class="fas fa-chevron-down accordion-arrow transition-transform duration-200 rotate-180"></i>
+                            </button>
+                            <div id="files" class="accordion-content mt-4 space-y-3">
+                                <div class="flex items-center gap-3 p-3 bg-white/5 rounded">
+                                    <i class="fas fa-file text-qf-green"></i>
+                                    <span>On Set Photographs</span>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 bg-white/5 rounded">
+                                    <i class="fas fa-file text-qf-green"></i>
+                                    <span>Project Files</span>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 bg-white/5 rounded">
+                                    <i class="fas fa-file text-qf-green"></i>
+                                    <span>Raw Files</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sticky Footer -->
+        <div class="fixed bottom-0 left-0 right-0 z-40 p-6" style="border-top: 1px solid rgba(255, 255, 255, 0.20); background: radial-gradient(162.34% 115.1% at 70.34% 91.1%, rgba(26, 201, 170, 0.06) 0%, rgba(24, 31, 37, 0.00) 62.23%), rgba(87, 90, 92, 0.20); backdrop-filter: blur(20px);">
+            <div class="nav-width flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="w-8 h-8 bg-qf-green rounded-full flex items-center justify-center">
+                        <i class="fas fa-user text-black text-sm"></i>
+                    </div>
+                    <p class="text-qf-light-gray text-sm">Note: Project bids can vary based on service details and requirements.</p>
+                </div>
+                <div class="flex items-center gap-6">
+                    <div class="text-right">
+                        <p class="text-qf-light-gray text-sm">Minimum</p>
+                        <p class="text-2xl font-bold">$1500</p>
+                        <p class="text-qf-light-gray text-sm">+3 Custom Priced Services</p>
+                    </div>
+                    <button class="bg-qf-green text-black font-medium px-6 py-3 rounded flex items-center gap-2 hover:bg-qf-green/80 transition-colors">
+                        Review Project
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Accordion functionality
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            const arrow = content.previousElementSibling.querySelector('.accordion-arrow');
+            
+            if (content.style.display === 'none' || content.classList.contains('hidden')) {
+                content.style.display = 'block';
+                content.classList.remove('hidden');
+                arrow.classList.add('rotate-180');
+            } else {
+                content.style.display = 'none';
+                content.classList.add('hidden');
+                arrow.classList.remove('rotate-180');
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Project Draft page loaded');
+            
+            // Initialize shared navigation
+            if (typeof SharedNavigation !== 'undefined') {
+                document.getElementById('shared-navigation').innerHTML = SharedNavigation.render('project-draft');
+            }
+        });
+    </script>
+</body>
+</html>

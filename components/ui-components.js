@@ -385,7 +385,7 @@ class UIComponents {
                 <button id="${id}-button" 
                         class="flex items-center justify-between w-full ${sizeClasses[size]} bg-white/10 border border-white/10 rounded backdrop-blur-[12px] text-white hover:bg-white/20 transition-colors">
                     <span id="${id}-text">${displayText}</span>
-                    <i class="fas fa-chevron-down transition-transform duration-200" id="${id}-arrow"></i>
+                    <i class="fas fa-chevron-down transition-transform duration-200 ml-2" id="${id}-arrow"></i>
                 </button>
                 
                 <div id="${id}-menu" 
