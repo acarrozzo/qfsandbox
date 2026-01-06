@@ -424,6 +424,9 @@
                 </aside>
             `;
 
+            // Ensure overlay starts hidden
+            overlayContainer.style.display = 'none';
+
             const backdrop = overlayContainer.querySelector('[data-role="backdrop"]');
             const sidebar = overlayContainer.querySelector('[data-role="sidebar"]');
             const closeButton = overlayContainer.querySelector('#mobile-sidebar-close');
