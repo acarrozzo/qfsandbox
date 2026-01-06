@@ -262,11 +262,224 @@ export class Modal {
   }
 }
 
+// Two Column Layout Component with Auto-Sticky Detection
+export class TwoColumnLayout {
+  constructor(element, options = {}) {
+    this.element = element;
+    this.options = {
+      leftSpan: 4,
+      rightSpan: 6,
+      gap: 6,
+      headerHeight: 0,
+      footerHeight: 0,
+      ...options
+    };
+    this.leftColumn = null;
+    this.rightColumn = null;
+    this.stickyColumn = null;
+    this.init();
+  }
+
+  init() {
+    this.createStructure();
+    this.setupStickyDetection();
+    this.setupResizeListener();
+  }
+
+  createStructure() {
+    this.element.className = `grid grid-cols-1 lg:grid-cols-10 gap-${this.options.gap} h-full`;
+    this.element.innerHTML = `
+      <aside id="two-col-left" class="col-span-1 lg:col-span-${this.options.leftSpan} overflow-y-auto" data-role="left-column">
+        <!-- Left column content -->
+      </aside>
+      <main id="two-col-right" class="col-span-1 lg:col-span-${this.options.rightSpan} overflow-y-auto" data-role="right-column">
+        <!-- Right column content -->
+      </main>
+    `;
+    
+    this.leftColumn = document.getElementById('two-col-left');
+    this.rightColumn = document.getElementById('two-col-right');
+  }
+
+  setupStickyDetection() {
+    // Wait for content to be loaded
+    setTimeout(() => {
+      this.detectAndApplySticky();
+    }, 100);
+  }
+
+  detectAndApplySticky() {
+    if (!this.leftColumn || !this.rightColumn) return;
+
+    // Reset sticky positioning
+    this.leftColumn.style.position = '';
+    this.leftColumn.style.top = '';
+    this.rightColumn.style.position = '';
+    this.rightColumn.style.top = '';
+
+    // Get actual content heights
+    const leftHeight = this.leftColumn.scrollHeight;
+    const rightHeight = this.rightColumn.scrollHeight;
+    
+    // Get viewport height minus header/footer
+    const viewportHeight = window.innerHeight - this.options.headerHeight - this.options.footerHeight;
+    
+    // Only apply sticky if content is shorter than viewport
+    if (leftHeight < viewportHeight && rightHeight < viewportHeight) {
+      // Both fit, make shorter one sticky
+      if (leftHeight < rightHeight) {
+        this.applySticky(this.leftColumn);
+        this.stickyColumn = 'left';
+      } else {
+        this.applySticky(this.rightColumn);
+        this.stickyColumn = 'right';
+      }
+    } else if (leftHeight < viewportHeight) {
+      // Only left fits
+      this.applySticky(this.leftColumn);
+      this.stickyColumn = 'left';
+    } else if (rightHeight < viewportHeight) {
+      // Only right fits
+      this.applySticky(this.rightColumn);
+      this.stickyColumn = 'right';
+    } else {
+      // Neither fits, no sticky
+      this.stickyColumn = null;
+    }
+  }
+
+  applySticky(column) {
+    column.style.position = 'sticky';
+    column.style.top = `${this.options.headerHeight}px`;
+    column.style.alignSelf = 'flex-start';
+  }
+
+  setupResizeListener() {
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        this.detectAndApplySticky();
+      }, 150);
+    });
+  }
+
+  getLeftColumn() {
+    return this.leftColumn;
+  }
+
+  getRightColumn() {
+    return this.rightColumn;
+  }
+
+  setLeftContent(html) {
+    if (this.leftColumn) {
+      this.leftColumn.innerHTML = html;
+      this.detectAndApplySticky();
+    }
+  }
+
+  setRightContent(html) {
+    if (this.rightColumn) {
+      this.rightColumn.innerHTML = html;
+      this.detectAndApplySticky();
+    }
+  }
+}
+
+// Mobile Overlay Sidebar Component
+export class MobileOverlaySidebar {
+  constructor(element, options = {}) {
+    this.element = element;
+    this.options = {
+      width: '320px',
+      ...options
+    };
+    this.isOpen = false;
+    this.init();
+  }
+
+  init() {
+    this.createStructure();
+    this.setupEventListeners();
+  }
+
+  createStructure() {
+    this.element.className = 'fixed inset-0 z-50 lg:hidden';
+    this.element.style.display = 'none';
+    this.element.innerHTML = `
+      <div class="mobile-sidebar-backdrop fixed inset-0 bg-black/50 backdrop-blur-sm" data-role="backdrop"></div>
+      <aside class="mobile-sidebar fixed top-0 left-0 h-full bg-qf-dark overflow-y-auto" 
+             style="width: ${this.options.width}; transform: translateX(-100%); transition: transform 0.3s ease-in-out; border-right: 1px solid rgba(255, 255, 255, 0.20); background: radial-gradient(162.34% 115.1% at 70.34% 91.1%, rgba(26, 201, 170, 0.06) 0%, rgba(24, 31, 37, 0.00) 62.23%), rgba(87, 90, 92, 0.20); backdrop-filter: blur(20px);" 
+             data-role="sidebar">
+        <!-- Sidebar content -->
+      </aside>
+    `;
+    
+    this.backdrop = this.element.querySelector('[data-role="backdrop"]');
+    this.sidebar = this.element.querySelector('[data-role="sidebar"]');
+  }
+
+  setupEventListeners() {
+    if (this.backdrop) {
+      this.backdrop.addEventListener('click', () => this.close());
+    }
+    
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && this.isOpen) {
+        this.close();
+      }
+    });
+  }
+
+  open() {
+    this.isOpen = true;
+    this.element.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+    
+    // Trigger animation
+    setTimeout(() => {
+      if (this.sidebar) {
+        this.sidebar.style.transform = 'translateX(0)';
+      }
+    }, 10);
+  }
+
+  close() {
+    this.isOpen = false;
+    if (this.sidebar) {
+      this.sidebar.style.transform = 'translateX(-100%)';
+    }
+    
+    setTimeout(() => {
+      this.element.style.display = 'none';
+      document.body.style.overflow = '';
+    }, 300);
+  }
+
+  toggle() {
+    if (this.isOpen) {
+      this.close();
+    } else {
+      this.open();
+    }
+  }
+
+  setContent(html) {
+    if (this.sidebar) {
+      this.sidebar.innerHTML = html;
+    }
+  }
+}
+
 // Export all layout components
 export default {
   ThreeColumn,
   SidebarNav,
   ContentWrapper,
   GridLayout,
-  Modal
+  Modal,
+  TwoColumnLayout,
+  MobileOverlaySidebar
 };

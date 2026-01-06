@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deliverables - QuickFrame Prototype</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="shared-styles.css">
+    <script src="components/ui-components.js"></script>
+    <script src="shared-nav.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'qf-green': '#1AC9AA',
+                        'qf-dark': '#181F25',
+                        'qf-darker': '#0F1419',
+                        'qf-gray': '#575A5C',
+                        'qf-light-gray': '#8B8F91',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-qf-darker text-white deliverables-page">
+    <!-- Navigation -->
+    <div id="shared-navigation"></div>
+
+    <!-- Mobile Sidebar Toggle Button -->
+    <button id="mobile-sidebar-toggle" class="lg:hidden fixed top-4 left-4 z-50 p-3 bg-white/10 hover:bg-white/20 border border-white/10 rounded backdrop-blur-[12px] text-white transition-colors">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Mobile Overlay Sidebar -->
+    <div id="mobile-overlay-sidebar"></div>
+
+    <!-- Main Content -->
+    <div class="nav-width min-h-screen">
+        <!-- Header Bar -->
+        <header class="px-8 py-4">
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                <!-- Left: Logo and Title -->
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2">
+                        <span class="text-2xl font-bold text-white">QF</span>
+                        <i class="fas fa-square text-qf-light-gray"></i>
+                        <i class="fas fa-play text-qf-light-gray"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-arrow-left text-qf-light-gray cursor-pointer hover:text-white"></i>
+                            <h1 class="text-xl font-bold text-white">Deliverables / Round 1 of 3</h1>
+                        </div>
+                        <p class="text-sm text-qf-light-gray mt-1">Approve or Request Changes after providing your feedback below.</p>
+                    </div>
+                </div>
+                
+                <!-- Right: Review Status and Submit Button -->
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 text-sm text-white">
+                        <span>3/4 Deliverables Reviewed</span>
+                        <i class="fas fa-question-circle text-qf-light-gray cursor-pointer hover:text-white"></i>
+                    </div>
+                    <div id="submit-all-btn"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Two Column Layout Container -->
+        <div id="two-column-layout" class="px-8 py-6" style="min-height: calc(100vh - 80px);">
+            <!-- Content will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Deliverables data
+        const deliverablesData = {
+            readyForReview: [
+                {
+                    id: 'concept',
+                    title: 'Concept',
+                    duration: '15 - 30 SEC',
+                    icon: 'fas fa-play',
+                    status: 'ready-to-review',
+                    selected: true
+                },
+                {
+                    id: 'aspect-ratio',
+                    title: 'Additional Aspect Ratio',
+                    duration: '1x2',
+                    icon: 'fas fa-play',
+                    status: 'ready-to-submit'
+                },
+                {
+                    id: 'cutdown',
+                    title: '15 Second CutDown',
+                    duration: '15 SEC',
+                    icon: 'fas fa-play',
+                    status: 'ready-to-submit'
+                },
+                {
+                    id: 'voiceover',
+                    title: '1 Additional Voice-over Variation',
+                    duration: '15 - 30 SEC',
+                    icon: 'fas fa-play',
+                    status: 'ready-to-submit'
+                },
+                {
+                    id: 'thumbnail',
+                    title: 'Thumbnail Options',
+                    duration: 'STATIC',
+                    icon: 'fas fa-image',
+                    status: 'ready-to-submit'
+                },
+                {
+                    id: 'subtitles',
+                    title: 'Subtitles/Captions',
+                    duration: '15 - 30 SEC',
+                    icon: 'fas fa-closed-captioning',
+                    status: 'ready-to-submit'
+                }
+            ],
+            notReadyForReview: [
+                {
+                    id: 'storyboard',
+                    title: 'Storyboard',
+                    duration: '15 - 30 SEC',
+                    icon: 'fas fa-play',
+                    status: null
+                },
+                {
+                    id: 'animatic',
+                    title: 'Animatic',
+                    duration: '30 SEC',
+                    icon: 'fas fa-play',
+                    status: null
+                },
+                {
+                    id: 'color-grading',
+                    title: 'Color Grading Pass',
+                    duration: '15 - 30 SEC',
+                    icon: 'fas fa-play',
+                    status: null
+                },
+                {
+                    id: 'rough-cut',
+                    title: 'Rough Cut',
+                    duration: '30 SEC',
+                    icon: 'fas fa-play',
+                    status: null
+                },
+                {
+                    id: 'music-selection',
+                    title: 'Music Selection',
+                    duration: '15 - 30 SEC',
+                    icon: 'fas fa-play',
+                    status: null
+                },
+                {
+                    id: 'sound-design',
+                    title: 'Sound Design',
+                    duration: '30 SEC',
+                    icon: 'fas fa-play',
+                    status: null
+                }
+            ],
+            approved: [
+                {
+                    id: 'final-cut',
+                    title: 'Final Cut',
+                    duration: '30 SEC',
+                    icon: 'fas fa-play',
+                    status: null
+                },
+                {
+                    id: 'social-media',
+                    title: 'Social Media Version',
+                    duration: '15 SEC',
+                    icon: 'fas fa-play',
+                    status: null
+                },
+                {
+                    id: 'b-roll',
+                    title: 'B-Roll Package',
+                    duration: '60 SEC',
+                    icon: 'fas fa-play',
+                    status: null
+                },
+                {
+                    id: 'behind-scenes',
+                    title: 'Behind the Scenes',
+                    duration: '45 SEC',
+                    icon: 'fas fa-play',
+                    status: null
+                },
+                {
+                    id: 'directors-cut',
+                    title: 'Directors Cut',
+                    duration: '60 SEC',
+                    icon: 'fas fa-play',
+                    status: null
+                },
+                {
+                    id: 'extended-version',
+                    title: 'Extended Version',
+                    duration: '90 SEC',
+                    icon: 'fas fa-play',
+                    status: null
+                }
+            ]
+        };
+
+        // Current selected deliverable
+        let currentDeliverable = 'concept';
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize shared navigation
+            if (typeof SharedNavigation !== 'undefined') {
+                document.getElementById('shared-navigation').innerHTML = SharedNavigation.render('deliverables');
+            }
+
+            // Initialize submit button
+            if (typeof UIComponents !== 'undefined') {
+                const submitBtn = document.getElementById('submit-all-btn');
+                if (submitBtn) {
+                    submitBtn.innerHTML = UIComponents.primaryButton('Submit All →', { 
+                        size: 'sm',
+                        className: 'whitespace-nowrap'
+                    });
+                }
+            }
+
+            // Initialize two-column layout
+            initializeTwoColumnLayout();
+
+            // Initialize mobile sidebar
+            initializeMobileSidebar();
+        });
+
+        function initializeTwoColumnLayout() {
+            const container = document.getElementById('two-column-layout');
+            if (!container) return;
+
+            // Create accordion sections
+            const accordionSections = [
+                {
+                    id: 'ready-for-review',
+                    title: 'READY FOR REVIEW',
+                    count: deliverablesData.readyForReview.length,
+                    items: deliverablesData.readyForReview,
+                    expanded: true
+                },
+                {
+                    id: 'not-ready-for-review',
+                    title: 'NOT READY FOR REVIEW',
+                    count: deliverablesData.notReadyForReview.length,
+                    items: deliverablesData.notReadyForReview,
+                    expanded: false
+                },
+                {
+                    id: 'approved',
+                    title: 'APPROVED',
+                    count: deliverablesData.approved.length,
+                    items: deliverablesData.approved,
+                    expanded: false
+                }
+            ];
+
+            // Create left sidebar content
+            const leftContent = UIComponents.accordion({
+                sections: accordionSections,
+                id: 'deliverables-accordion',
+                className: 'h-full'
+            });
+
+            // Create right main content
+            const rightContent = `
+                <!-- Tabs -->
+                <div class="mb-6 border-b border-white/20">
+                    <div class="flex gap-1 -mb-px">
+                        <button class="px-4 py-3 text-sm font-medium text-white border-b-2 border-qf-green transition-colors" data-tab="concept">
+                            Concept
+                        </button>
+                        <button class="px-4 py-3 text-sm font-medium text-qf-light-gray hover:text-white transition-colors" data-tab="version-history">
+                            Version History
+                        </button>
+                        <button class="px-4 py-3 text-sm font-medium text-qf-light-gray hover:text-white transition-colors" data-tab="activity">
+                            Activity
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Last Comment Section -->
+                <div class="mb-6 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-qf-green/20 flex items-center justify-center overflow-hidden">
+                        <i class="fas fa-user text-qf-green"></i>
+                    </div>
+                    <span class="text-sm text-qf-light-gray">Last Comment</span>
+                </div>
+
+                <!-- Video Player -->
+                <div class="mb-6">
+                    <div class="w-full bg-qf-dark rounded-lg overflow-hidden relative flex items-center justify-center resize-y" style="min-height: 300px; aspect-ratio: 16/9;">
+                        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/50"></div>
+                        <div class="relative z-10">
+                            <button class="w-16 h-16 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm flex items-center justify-center transition-colors">
+                                <i class="fas fa-play text-white text-xl ml-1"></i>
+                            </button>
+                        </div>
+                        <!-- Placeholder for video thumbnail -->
+                        <div class="absolute inset-0 bg-gradient-to-br from-qf-dark to-qf-darker"></div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mb-6 flex gap-4">
+                    <button class="flex-1 px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/10 rounded text-white font-medium transition-colors">
+                        Request Changes
+                    </button>
+                    <button class="flex-1 px-6 py-3 bg-qf-green hover:bg-qf-green/80 rounded text-black font-medium transition-colors flex items-center justify-center gap-2">
+                        <i class="fas fa-check"></i>
+                        Approve
+                    </button>
+                </div>
+
+                <!-- Comment Section -->
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-3">Comment</h3>
+                    <textarea 
+                        placeholder="Provide feedback for this deliverable" 
+                        rows="6"
+                        class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded backdrop-blur-[12px] text-white placeholder-qf-light-gray focus:border-qf-green focus:outline-none transition-colors resize-y"
+                    ></textarea>
+                    <p class="text-xs text-qf-light-gray mt-2">Helper text</p>
+                </div>
+            `;
+
+            // Set content
+            container.innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-10 gap-6 items-start">
+                    <aside id="two-col-left" class="col-span-1 lg:col-span-4 two-column-left">
+                        ${leftContent}
+                    </aside>
+                    <main id="two-col-right" class="col-span-1 lg:col-span-6 two-column-right">
+                        ${rightContent}
+                    </main>
+                </div>
+            `;
+
+            // Initialize accordion
+            if (typeof UIComponents !== 'undefined') {
+                UIComponents.initializeAccordion('deliverables-accordion', null, (deliverableId, element) => {
+                    currentDeliverable = deliverableId;
+                    console.log('Selected deliverable:', deliverableId);
+                    // Update right content based on selected deliverable
+                    updateRightContent(deliverableId);
+                });
+            }
+
+            // Initialize tab functionality
+            initializeTabs();
+
+            // Setup sticky detection
+            setupStickyDetection();
+        }
+
+        function initializeMobileSidebar() {
+            const overlayContainer = document.getElementById('mobile-overlay-sidebar');
+            const toggleButton = document.getElementById('mobile-sidebar-toggle');
+            
+            if (!overlayContainer || !toggleButton) return;
+
+            // Create accordion sections for mobile sidebar
+            const accordionSections = [
+                {
+                    id: 'ready-for-review',
+                    title: 'READY FOR REVIEW',
+                    count: deliverablesData.readyForReview.length,
+                    items: deliverablesData.readyForReview,
+                    expanded: true
+                },
+                {
+                    id: 'not-ready-for-review',
+                    title: 'NOT READY FOR REVIEW',
+                    count: deliverablesData.notReadyForReview.length,
+                    items: deliverablesData.notReadyForReview,
+                    expanded: false
+                },
+                {
+                    id: 'approved',
+                    title: 'APPROVED',
+                    count: deliverablesData.approved.length,
+                    items: deliverablesData.approved,
+                    expanded: false
+                }
+            ];
+
+            const sidebarContent = `
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold text-white">Deliverables</h2>
+                        <button id="mobile-sidebar-close" class="text-qf-light-gray hover:text-white">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    ${UIComponents.accordion({
+                        sections: accordionSections,
+                        id: 'mobile-deliverables-accordion',
+                        className: ''
+                    })}
+                </div>
+            `;
+
+            overlayContainer.innerHTML = `
+                <div class="mobile-sidebar-backdrop fixed inset-0 bg-black/50 backdrop-blur-sm" data-role="backdrop"></div>
+                <aside class="mobile-sidebar fixed top-0 left-0 h-full bg-qf-dark overflow-y-auto" 
+                       style="width: 320px; transform: translateX(-100%); transition: transform 0.3s ease-in-out; border-right: 1px solid rgba(255, 255, 255, 0.20); background: radial-gradient(162.34% 115.1% at 70.34% 91.1%, rgba(26, 201, 170, 0.06) 0%, rgba(24, 31, 37, 0.00) 62.23%), rgba(87, 90, 92, 0.20); backdrop-filter: blur(20px);" 
+                       data-role="sidebar">
+                    ${sidebarContent}
+                </aside>
+            `;
+
+            const backdrop = overlayContainer.querySelector('[data-role="backdrop"]');
+            const sidebar = overlayContainer.querySelector('[data-role="sidebar"]');
+            const closeButton = overlayContainer.querySelector('#mobile-sidebar-close');
+
+            let isOpen = false;
+
+            function openSidebar() {
+                isOpen = true;
+                overlayContainer.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+                setTimeout(() => {
+                    if (sidebar) sidebar.style.transform = 'translateX(0)';
+                }, 10);
+            }
+
+            function closeSidebar() {
+                isOpen = false;
+                if (sidebar) sidebar.style.transform = 'translateX(-100%)';
+                setTimeout(() => {
+                    overlayContainer.style.display = 'none';
+                    document.body.style.overflow = '';
+                }, 300);
+            }
+
+            toggleButton.addEventListener('click', openSidebar);
+            if (backdrop) backdrop.addEventListener('click', closeSidebar);
+            if (closeButton) closeButton.addEventListener('click', closeSidebar);
+
+            // Close on escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && isOpen) {
+                    closeSidebar();
+                }
+            });
+
+            // Initialize mobile accordion
+            if (typeof UIComponents !== 'undefined') {
+                UIComponents.initializeAccordion('mobile-deliverables-accordion', null, (deliverableId, element) => {
+                    currentDeliverable = deliverableId;
+                    updateRightContent(deliverableId);
+                    closeSidebar();
+                });
+            }
+        }
+
+        function initializeTabs() {
+            const tabs = document.querySelectorAll('[data-tab]');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.dataset.tab;
+                    
+                    // Update active tab
+                    tabs.forEach(t => {
+                        if (t.dataset.tab === tabId) {
+                            t.classList.remove('text-qf-light-gray');
+                            t.classList.add('text-white', 'border-b-2', 'border-qf-green');
+                        } else {
+                            t.classList.remove('text-white', 'border-b-2', 'border-qf-green');
+                            t.classList.add('text-qf-light-gray');
+                        }
+                    });
+
+                    // Update content based on tab (placeholder for now)
+                    console.log('Switched to tab:', tabId);
+                });
+            });
+        }
+
+        function updateRightContent(deliverableId) {
+            // This would update the right content based on selected deliverable
+            // For now, just log it
+            console.log('Updating content for:', deliverableId);
+        }
+
+        function setupStickyDetection() {
+            const leftColumn = document.getElementById('two-col-left');
+            const rightColumn = document.getElementById('two-col-right');
+            
+            if (!leftColumn || !rightColumn) return;
+
+            // Check if we're on desktop (lg breakpoint and above)
+            function isDesktop() {
+                return window.innerWidth >= 1024; // Tailwind lg breakpoint
+            }
+
+            function detectAndApplySticky() {
+                // Only apply sticky on desktop
+                if (!isDesktop()) {
+                    // Reset sticky on mobile
+                    leftColumn.style.position = '';
+                    leftColumn.style.top = '';
+                    leftColumn.style.alignSelf = '';
+                    leftColumn.style.maxHeight = '';
+                    rightColumn.style.position = '';
+                    rightColumn.style.top = '';
+                    rightColumn.style.alignSelf = '';
+                    rightColumn.style.maxHeight = '';
+                    return;
+                }
+
+                // Reset sticky positioning
+                leftColumn.style.position = '';
+                leftColumn.style.top = '';
+                leftColumn.style.alignSelf = '';
+                leftColumn.style.maxHeight = '';
+                rightColumn.style.position = '';
+                rightColumn.style.top = '';
+                rightColumn.style.alignSelf = '';
+                rightColumn.style.maxHeight = '';
+
+                // Use requestAnimationFrame to ensure DOM is fully rendered
+                requestAnimationFrame(() => {
+                    // Measure actual content heights (including collapsed accordion content)
+                    // Use scrollHeight to get full content height regardless of visibility
+                    const leftHeight = leftColumn.scrollHeight;
+                    const rightHeight = rightColumn.scrollHeight;
+
+                    // Apply sticky to the shorter column
+                    if (leftHeight < rightHeight) {
+                        leftColumn.style.position = 'sticky';
+                        leftColumn.style.top = '0px';
+                        leftColumn.style.alignSelf = 'flex-start';
+                    } else if (rightHeight < leftHeight) {
+                        rightColumn.style.position = 'sticky';
+                        rightColumn.style.top = '0px';
+                        rightColumn.style.alignSelf = 'flex-start';
+                    }
+                    // If heights are equal, don't apply sticky to either
+                });
+            }
+
+            // Initial detection - wait for content to load and use requestAnimationFrame
+            function initialDetection() {
+                // Wait for DOM to be ready
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', () => {
+                        setTimeout(() => {
+                            requestAnimationFrame(detectAndApplySticky);
+                        }, 100);
+                    });
+                } else {
+                    setTimeout(() => {
+                        requestAnimationFrame(detectAndApplySticky);
+                    }, 100);
+                }
+            }
+
+            initialDetection();
+
+            // Re-detect on resize with debouncing
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    requestAnimationFrame(detectAndApplySticky);
+                }, 150);
+            });
+
+            // Re-detect when accordion toggles (wait for CSS transition to complete)
+            const accordionButtons = document.querySelectorAll('[data-accordion-toggle]');
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Wait for accordion transition (300ms from CSS) plus a small buffer
+                    setTimeout(() => {
+                        requestAnimationFrame(detectAndApplySticky);
+                    }, 350);
+                });
+            });
+
+            // Also listen for accordion changes in the mobile sidebar
+            const mobileAccordionButtons = document.querySelectorAll('#mobile-deliverables-accordion [data-accordion-toggle]');
+            mobileAccordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    setTimeout(() => {
+                        requestAnimationFrame(detectAndApplySticky);
+                    }, 350);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
+

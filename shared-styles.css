@@ -72,3 +72,68 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
 }
+
+/* Deliverables Page Specific */
+.deliverables-page {
+    overflow-x: hidden;
+}
+
+/* Accordion Styles */
+.accordion-container {
+    width: 100%;
+}
+
+.accordion-header {
+    cursor: pointer;
+    user-select: none;
+}
+
+.accordion-content {
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, margin-top 0.3s ease-in-out;
+    opacity: 1;
+    margin-top: 0.5rem;
+    display: block;
+    visibility: visible;
+}
+
+.accordion-content.hidden {
+    max-height: 0 !important;
+    opacity: 0 !important;
+    overflow: hidden;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    display: block !important; /* Keep display: block for transitions to work */
+    visibility: hidden;
+}
+
+/* Two Column Layout */
+.two-column-left,
+.two-column-right {
+    /* Max height will be set inline based on header height */
+}
+
+/* Mobile Sidebar Overlay */
+.mobile-sidebar-backdrop {
+    z-index: 49;
+}
+
+.mobile-sidebar {
+    z-index: 50;
+}
+
+/* Deliverable Item Styles */
+.deliverable-item {
+    transition: all 0.2s ease-in-out;
+}
+
+.deliverable-item:hover {
+    transform: translateX(2px);
+}
+
+/* Two Column Layout - no individual scrolling */
+.two-column-left,
+.two-column-right {
+    /* Columns don't scroll individually, page scrolls */
+}

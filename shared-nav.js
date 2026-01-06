@@ -14,7 +14,8 @@ class SharedNavigation {
             { id: 'dashboard', href: 'dashboard.html', icon: 'fas fa-chart-line', title: 'Dashboard' },
             { id: 'package-selection', href: 'package-selection.html', icon: 'fas fa-box', title: 'Package Selection' },
             { id: 'service', href: 'service.html', icon: 'fas fa-flask', title: 'Service Prototype' },
-            { id: 'project-draft', href: 'project-draft.html', icon: 'fas fa-file-alt', title: 'Project Draft' }
+            { id: 'project-draft', href: 'project-draft.html', icon: 'fas fa-file-alt', title: 'Project Draft' },
+            { id: 'deliverables', href: 'deliverables.html', icon: 'fas fa-clipboard-check', title: 'Deliverables' }
         ];
 
         const navItemsHtml = navItems.map(item => {
@@ -63,7 +64,8 @@ class SharedNavigation {
             { id: 'dashboard', href: 'dashboard.html', icon: 'fas fa-chart-line', title: 'Dashboard', label: 'Dashboard' },
             { id: 'package-selection', href: 'package-selection.html', icon: 'fas fa-box', title: 'Package Selection', label: 'Package' },
             { id: 'service', href: 'service.html', icon: 'fas fa-flask', title: 'Service Prototype', label: 'Service' },
-            { id: 'project-draft', href: 'project-draft.html', icon: 'fas fa-file-alt', title: 'Project Draft', label: 'Draft' }
+            { id: 'project-draft', href: 'project-draft.html', icon: 'fas fa-file-alt', title: 'Project Draft', label: 'Draft' },
+            { id: 'deliverables', href: 'deliverables.html', icon: 'fas fa-clipboard-check', title: 'Deliverables', label: 'Deliver' }
         ];
 
         const navItemsHtml = navItems.map(item => {

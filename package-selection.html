@@ -45,6 +45,59 @@
             </div>
         </div>
 
+        <!-- AI Agent Section -->
+        <div class="mb-8">
+            <div class="glass-container p-6 rounded-lg">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 bg-qf-green rounded-lg flex items-center justify-center">
+                        <i class="fas fa-robot text-black text-lg"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-white">AI Package Assistant</h2>
+                        <p class="text-qf-light-gray text-sm">Describe what you need and I'll recommend the best packages for you</p>
+                    </div>
+                </div>
+                
+                <!-- Search Input Section -->
+                <div class="mb-4">
+                    <form id="ai-agent-form" class="flex gap-3">
+                        <input 
+                            type="text" 
+                            id="ai-agent-input" 
+                            placeholder="e.g., I need a quick video using stock footage for under $5,000"
+                            class="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded backdrop-blur-[12px] text-white placeholder-qf-light-gray focus:border-qf-green focus:outline-none transition-colors"
+                        >
+                        <button 
+                            type="submit" 
+                            id="ai-agent-submit"
+                            class="px-6 py-3 bg-qf-green text-black font-medium rounded hover:bg-qf-green/80 transition-colors flex items-center gap-2"
+                        >
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Get Recommendations</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Loading State -->
+                <div id="ai-agent-loading" class="hidden mb-4">
+                    <div class="flex items-center gap-3 text-qf-light-gray">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <span>Analyzing your requirements...</span>
+                    </div>
+                </div>
+
+                <!-- Recommendations Section -->
+                <div id="ai-agent-recommendations" class="hidden">
+                    <div class="border-t border-white/10 pt-4">
+                        <h3 class="text-lg font-semibold text-white mb-3">Recommended Packages</h3>
+                        <div id="ai-recommendations-content" class="space-y-4">
+                            <!-- Recommendations will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Package Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6" id="package-grid">
             <!-- Package cards will be dynamically generated here -->
@@ -112,8 +165,166 @@
                 }
             ];
 
+            // Mock AI Analysis Function
+            function analyzeUserInput(userInput, packages) {
+                const input = userInput.toLowerCase();
+                const scoredPackages = [];
+
+                // Extract keywords and preferences from user input
+                const keywords = {
+                    budget: {
+                        cheap: ['cheap', 'affordable', 'low cost', 'budget', 'inexpensive'],
+                        medium: ['moderate', 'reasonable', 'mid-range'],
+                        high: ['premium', 'high-end', 'expensive']
+                    },
+                    videoType: {
+                        animated: ['animated', 'animation', '3d', '2d', 'cartoon'],
+                        liveAction: ['live action', 'live-action', 'real people', 'actors', 'filming'],
+                        testimonial: ['testimonial', 'case study', 'customer', 'review'],
+                        stock: ['stock footage', 'stock', 'existing footage'],
+                        product: ['product', 'spotlight', 'showcase']
+                    },
+                    timeline: {
+                        quick: ['quick', 'fast', 'urgent', 'asap', 'soon', 'rushed'],
+                        normal: ['normal', 'standard', 'regular'],
+                        weeks: ['weeks', '2-3 weeks', 'turnaround']
+                    },
+                    content: {
+                        concept: ['concept', 'ideation', 'idea', 'brainstorm'],
+                        production: ['production', 'shoot', 'create', 'make']
+                    }
+                };
+
+                // Extract budget constraints
+                let maxBudget = null;
+                const budgetMatch = input.match(/\$?([\d,]+)/);
+                if (budgetMatch) {
+                    maxBudget = parseInt(budgetMatch[1].replace(/,/g, ''));
+                }
+
+                // Score each package
+                packages.forEach((pkg, index) => {
+                    let score = 0;
+                    const reasons = [];
+                    const pkgTitle = pkg.title.toLowerCase();
+                    const pkgDesc = pkg.description.toLowerCase();
+                    const pkgPrice = parseInt(pkg.price.replace(/,/g, ''));
+
+                    // Check budget compatibility
+                    if (maxBudget) {
+                        if (pkgPrice <= maxBudget) {
+                            score += 30;
+                            reasons.push(`fits your budget of $${maxBudget.toLocaleString()}`);
+                        } else {
+                            score -= 20;
+                        }
+                    } else {
+                        // Check for budget keywords
+                        if (keywords.budget.cheap.some(k => input.includes(k))) {
+                            if (pkgPrice < 5000) {
+                                score += 20;
+                                reasons.push('affordable option');
+                            }
+                        }
+                    }
+
+                    // Check video type matches
+                    if (keywords.videoType.animated.some(k => input.includes(k))) {
+                        if (pkgTitle.includes('animated') || pkgTitle.includes('3d') || pkgTitle.includes('2d')) {
+                            score += 40;
+                            reasons.push('matches your animated video preference');
+                        }
+                    }
+                    if (keywords.videoType.liveAction.some(k => input.includes(k))) {
+                        if (pkgTitle.includes('live action')) {
+                            score += 40;
+                            reasons.push('matches your live action preference');
+                        }
+                    }
+                    if (keywords.videoType.testimonial.some(k => input.includes(k))) {
+                        if (pkgTitle.includes('testimonial') || pkgTitle.includes('case study')) {
+                            score += 40;
+                            reasons.push('matches your testimonial/case study need');
+                        }
+                    }
+                    if (keywords.videoType.stock.some(k => input.includes(k))) {
+                        if (pkgTitle.includes('post-production') || pkgDesc.includes('stock footage')) {
+                            score += 40;
+                            reasons.push('uses stock footage as requested');
+                        }
+                    }
+                    if (keywords.videoType.product.some(k => input.includes(k))) {
+                        if (pkgTitle.includes('product')) {
+                            score += 30;
+                            reasons.push('focuses on product showcasing');
+                        }
+                    }
+
+                    // Check timeline matches
+                    if (keywords.timeline.quick.some(k => input.includes(k))) {
+                        if (pkgTitle.includes('quick') || pkgDesc.includes('quick') || pkgDesc.includes('2-3 weeks')) {
+                            score += 25;
+                            reasons.push('offers quick turnaround');
+                        }
+                    }
+                    if (keywords.timeline.weeks.some(k => input.includes(k))) {
+                        if (pkgDesc.includes('weeks') || pkgDesc.includes('turnaround')) {
+                            score += 15;
+                            reasons.push('meets your timeline requirements');
+                        }
+                    }
+
+                    // Check content type matches
+                    if (keywords.content.concept.some(k => input.includes(k))) {
+                        if (pkgTitle.includes('concept') || pkgTitle.includes('ideation')) {
+                            score += 35;
+                            reasons.push('focuses on concepting and ideation');
+                        }
+                    }
+
+                    // Title keyword matches (general)
+                    const titleWords = pkgTitle.split(/\s+/);
+                    const inputWords = input.split(/\s+/);
+                    titleWords.forEach(word => {
+                        if (word.length > 3 && inputWords.includes(word)) {
+                            score += 10;
+                        }
+                    });
+
+                    // Description keyword matches
+                    const descWords = pkgDesc.split(/\s+/);
+                    descWords.forEach(word => {
+                        if (word.length > 3 && inputWords.includes(word)) {
+                            score += 5;
+                        }
+                    });
+
+                    scoredPackages.push({
+                        package: pkg,
+                        score: score,
+                        reasons: reasons.length > 0 ? reasons : ['matches your general requirements']
+                    });
+                });
+
+                // Sort by score and get top 1-2
+                scoredPackages.sort((a, b) => b.score - a.score);
+                const topPackages = scoredPackages.filter(p => p.score > 0).slice(0, 2);
+
+                // Generate explanations
+                return topPackages.map(item => {
+                    const primaryReason = item.reasons[0] || 'matches your requirements';
+                    const explanation = `I recommend **${item.package.title}** because ${primaryReason}. ${item.reasons.length > 1 ? `Additionally, ${item.reasons.slice(1).join(', ')}.` : ''} This package starts at $${item.package.price} and ${item.package.description.split('.')[0].toLowerCase()}.`;
+                    
+                    return {
+                        package: item.package,
+                        explanation: explanation,
+                        score: item.score
+                    };
+                });
+            }
+
             // Function to create package card HTML
-            function createPackageCard(package) {
+            function createPackageCard(package, isRecommended = false) {
                 const logoIcon = package.logo === "TikTok" ? 
                     '<i class="fab fa-tiktok text-white text-sm"></i>' : 
                     `<span class="text-white font-bold text-sm">${package.logo}</span>`;
@@ -121,8 +332,13 @@
                 const logoLabel = package.logo === "M" ? 
                     '<span class="text-xs text-qf-light-gray"></span>' : '';
 
+                const recommendedClass = isRecommended ? 'ring-2 ring-qf-green ring-opacity-75' : '';
+                const recommendedBadge = isRecommended ? 
+                    '<div class="absolute top-3 left-3 bg-qf-green text-black text-xs font-bold px-2 py-1 rounded flex items-center gap-1 z-10"><i class="fas fa-star text-xs"></i> Recommended</div>' : '';
+
                 return `
-                    <div class="package-card glass-container p-6 rounded-lg flex flex-col h-full">
+                    <div class="package-card glass-container p-6 rounded-lg flex flex-col h-full relative ${recommendedClass}">
+                        ${recommendedBadge}
                         <!-- Header with logo -->
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-xl font-semibold text-white">${package.title}</h3>
@@ -151,6 +367,65 @@
                 `;
             }
 
+            // Function to display recommendations
+            function displayRecommendations(recommendations) {
+                const recommendationsSection = document.getElementById('ai-agent-recommendations');
+                const recommendationsContent = document.getElementById('ai-recommendations-content');
+                
+                if (!recommendationsSection || !recommendationsContent) return;
+
+                if (recommendations.length === 0) {
+                    recommendationsContent.innerHTML = `
+                        <div class="text-qf-light-gray">
+                            <p>I couldn't find a perfect match based on your description. Try being more specific about your needs, budget, or timeline, or browse all packages below.</p>
+                        </div>
+                    `;
+                } else {
+                    recommendationsContent.innerHTML = recommendations.map(rec => {
+                        // Convert markdown-style bold to HTML
+                        const explanation = rec.explanation.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white">$1</strong>');
+                        
+                        return `
+                            <div class="bg-white/5 border border-white/10 rounded-lg p-4">
+                                <h4 class="text-white font-semibold mb-2">${rec.package.title}</h4>
+                                <p class="text-qf-light-gray text-sm leading-relaxed">${explanation}</p>
+                            </div>
+                        `;
+                    }).join('');
+                }
+
+                recommendationsSection.classList.remove('hidden');
+            }
+
+            // Function to highlight recommended packages in grid
+            function highlightRecommendedPackages(recommendations) {
+                const recommendedTitles = new Set(recommendations.map(r => r.package.title));
+                
+                // Re-render package grid with highlighting
+                const packageGrid = document.getElementById('package-grid');
+                if (packageGrid) {
+                    packageGrid.innerHTML = packageData.map(pkg => {
+                        const isRecommended = recommendedTitles.has(pkg.title);
+                        return createPackageCard(pkg, isRecommended);
+                    }).join('');
+                }
+
+                // Re-hydrate buttons
+                if (typeof UIComponents !== 'undefined') {
+                    packageData.forEach(pkg => {
+                        const idSafe = pkg.title.replace(/[^a-z0-9]/gi,'-').toLowerCase();
+                        const quickviewTarget = document.getElementById(`quickview-${idSafe}`);
+                        const startTarget = document.getElementById(`start-${idSafe}`);
+                        if (quickviewTarget) {
+                            quickviewTarget.innerHTML = UIComponents.ghostButton('Quickview', { size: 'xs', icon: 'fas fa-eye', iconPosition: 'right' });
+                        }
+                        if (startTarget) {
+                            startTarget.innerHTML = UIComponents.secondaryButton('Start here', { icon: 'fas fa-arrow-right', size: 'md', className: 'w-full flex justify-center', iconPosition: 'right' });
+                        }
+                    });
+                }
+            }
+
             // Generate package cards when page loads
             document.addEventListener('DOMContentLoaded', function() {
                 // Initialize shared navigation
@@ -175,6 +450,52 @@
                         if (startTarget) {
                             startTarget.innerHTML = UIComponents.secondaryButton('Start here', { icon: 'fas fa-arrow-right', size: 'md', className: 'w-full flex justify-center', iconPosition: 'right' });
                         }
+                    });
+                }
+
+                // Wire up AI agent form
+                const aiForm = document.getElementById('ai-agent-form');
+                const aiInput = document.getElementById('ai-agent-input');
+                const aiSubmit = document.getElementById('ai-agent-submit');
+                const aiLoading = document.getElementById('ai-agent-loading');
+                const aiRecommendations = document.getElementById('ai-agent-recommendations');
+
+                if (aiForm && aiInput && aiSubmit) {
+                    aiForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        
+                        const userInput = aiInput.value.trim();
+                        if (!userInput) {
+                            return;
+                        }
+
+                        // Show loading state
+                        aiLoading.classList.remove('hidden');
+                        aiRecommendations.classList.add('hidden');
+                        aiSubmit.disabled = true;
+                        aiSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Processing...</span>';
+
+                        // Simulate AI processing delay
+                        setTimeout(() => {
+                            // Analyze user input
+                            const recommendations = analyzeUserInput(userInput, packageData);
+                            
+                            // Display recommendations
+                            displayRecommendations(recommendations);
+                            
+                            // Highlight recommended packages
+                            if (recommendations.length > 0) {
+                                highlightRecommendedPackages(recommendations);
+                                
+                                // Scroll to recommendations section
+                                aiRecommendations.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                            }
+                            
+                            // Hide loading state
+                            aiLoading.classList.add('hidden');
+                            aiSubmit.disabled = false;
+                            aiSubmit.innerHTML = '<i class="fas fa-paper-plane"></i> <span>Get Recommendations</span>';
+                        }, 1000); // 1 second delay to simulate processing
                     });
                 }
             });

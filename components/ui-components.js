@@ -476,6 +476,129 @@ class UIComponents {
             }
         });
     }
+
+    /**
+     * Accordion Component
+     * @param {Object} options - Accordion options
+     * @param {Array} options.sections - Array of accordion section objects {id, title, count, items, expanded}
+     * @param {string} options.className - Additional CSS classes
+     * @param {string} options.id - Unique ID for the accordion container
+     */
+    static accordion(options = {}) {
+        const {
+            sections = [],
+            className = '',
+            id = `accordion-${Math.random().toString(36).substr(2, 9)}`
+        } = options;
+
+        const sectionsHtml = sections.map((section, index) => {
+            const isExpanded = section.expanded !== undefined ? section.expanded : (index === 0);
+            const expandedClass = isExpanded ? '' : 'hidden';
+            const arrowRotation = isExpanded ? 'rotate-180' : '';
+            
+            const itemsHtml = section.items ? section.items.map(item => {
+                const statusClass = item.status === 'ready-to-review' ? 'border-red-500' : 
+                                   item.status === 'ready-to-submit' ? 'border-green-500' : '';
+                const statusText = item.status === 'ready-to-review' ? 'Ready to Review' :
+                                  item.status === 'ready-to-submit' ? 'Ready to Submit' : '';
+                const statusBg = item.status === 'ready-to-review' ? 'bg-transparent' :
+                                item.status === 'ready-to-submit' ? 'bg-transparent' : '';
+                
+                return `
+                    <div class="deliverable-item p-3 rounded-lg border ${statusClass} ${statusBg} hover:bg-white/5 transition-colors cursor-pointer ${item.selected ? 'bg-white/10 border-qf-green' : ''}" data-deliverable-id="${item.id}">
+                        <div class="flex items-center gap-3">
+                            ${item.icon ? `<i class="${item.icon} text-qf-light-gray"></i>` : ''}
+                            <div class="flex-1 min-w-0">
+                                <div class="font-medium text-white truncate">${item.title}</div>
+                                ${item.duration ? `<div class="text-xs text-qf-light-gray mt-1">${item.duration}</div>` : ''}
+                            </div>
+                            ${item.status ? `<button class="px-2 py-1 text-xs rounded border ${statusClass} ${statusBg} text-white whitespace-nowrap">${statusText}</button>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('') : '';
+
+            return `
+                <div class="accordion-section mb-2">
+                    <button class="accordion-header w-full flex items-center justify-between p-3 bg-white/5 rounded-lg hover:bg-white/10 transition-colors" 
+                            data-accordion-toggle="${section.id}">
+                        <span class="font-semibold text-white">${section.title}${section.count !== undefined ? ` (${section.count})` : ''}</span>
+                        <i class="fas fa-chevron-down accordion-arrow transition-transform duration-200 ${arrowRotation}"></i>
+                    </button>
+                    <div id="accordion-content-${section.id}" class="accordion-content mt-2 space-y-2 ${expandedClass}">
+                        ${itemsHtml || '<div class="p-2 text-qf-light-gray text-sm">No items</div>'}
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        return `
+            <div id="${id}" class="accordion-container ${className}">
+                ${sectionsHtml}
+            </div>
+        `;
+    }
+
+    /**
+     * Initialize Accordion Functionality
+     * @param {string} accordionId - The ID of the accordion container
+     * @param {Function} onToggle - Optional callback when accordion is toggled
+     * @param {Function} onItemClick - Optional callback when deliverable item is clicked
+     */
+    static initializeAccordion(accordionId, onToggle = null, onItemClick = null) {
+        const container = document.getElementById(accordionId);
+        if (!container) {
+            console.warn(`Accordion container with ID "${accordionId}" not found`);
+            return;
+        }
+
+        // Handle accordion toggle
+        const toggleButtons = container.querySelectorAll('[data-accordion-toggle]');
+        if (toggleButtons.length === 0) {
+            console.warn(`No accordion toggle buttons found in container "${accordionId}"`);
+            return;
+        }
+
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.stopPropagation();
+                
+                // Find the content div right after the button
+                const content = button.nextElementSibling;
+                const arrow = button.querySelector('.accordion-arrow');
+                
+                if (!content || !content.classList.contains('accordion-content')) {
+                    return;
+                }
+                
+                // Simple toggle: add/remove hidden class
+                content.classList.toggle('hidden');
+                
+                // Toggle arrow rotation
+                if (arrow) {
+                    arrow.classList.toggle('rotate-180');
+                }
+            });
+        });
+
+        // Handle deliverable item clicks
+        if (onItemClick) {
+            const deliverableItems = container.querySelectorAll('.deliverable-item');
+            deliverableItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const deliverableId = item.dataset.deliverableId;
+                    
+                    // Update selected state
+                    deliverableItems.forEach(i => {
+                        i.classList.remove('bg-white/10', 'border-qf-green');
+                    });
+                    item.classList.add('bg-white/10', 'border-qf-green');
+                    
+                    onItemClick(deliverableId, item);
+                });
+            });
+        }
+    }
 }
 
 // Expose globally for non-module inline scripts
